@@ -42,10 +42,10 @@ ElevatedButton(
 
 ### MinimalPersianCalendar Parameters
 
-| Parameter    | Description                                       | Type                | Default              |
-|--------------|---------------------------------------------------|---------------------|----------------------|
-| `onSubmit`   | Callback function returning the picked date      | `Function`          | Required             |
-| `initialDate`| Initial date displayed in the calendar            | `DateTime`          | `null`               |
-| `borderRadius` | Border radius of the dialog box                 | `double`            | `20`                 |
-| `maxYear`    | Maximum selectable year                           | `int`               | `DateTime.now() + 11`|
-| `minYear`    | Minimum selectable year                           | `int`               | `DateTime.now()`     |
+| Parameter    | Description                                       | Type                                                   | Default              |
+|--------------|---------------------------------------------------|--------------------------------------------------------|----------------------|
+| `onSubmit`   | Callback function returning the picked date      | Function(Jalali jalaliDate, String dateInText)          | Required             |
+| `initialDate`| Initial date displayed in the calendar            | DateTime                                               | DateTime.now()               |
+| `borderRadius` | Border radius of the dialog box                 | double                                                 | 20                 |
+| `maxYear`    | Maximum selectable year                           | int                                                    | DateTime.now() + 11|
+| `minYear`    | Minimum selectable year                           | int                                                    | DateTime.now()     |
