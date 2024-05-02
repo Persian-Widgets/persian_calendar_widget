@@ -1,5 +1,5 @@
 name: persian_calendar_widget
-description: "A new Flutter package project."
+description: "Pick a date with a custom dialog box in Persian calendar."
 version: 0.0.1
 homepage:
 
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shamsi_date: ^1.0.2
 
 dev_dependencies:
   flutter_test:
