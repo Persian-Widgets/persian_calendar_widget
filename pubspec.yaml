@@ -4,9 +4,9 @@ version: 0.1.2
 homepage: https://github.com/Persian-Widgets
 repository: https://github.com/Persian-Widgets/persian_calendar_widget
 topics: 
-  - persian_calendar
-  - persian_date_picker
-  - shamsi_date_picker
+  - persian-calendar
+  - persian-date-picker
+  - shamsi-date-picker
   - jalali
   - date_picker
 
