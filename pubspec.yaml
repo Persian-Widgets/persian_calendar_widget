@@ -1,7 +1,16 @@
 name: persian_calendar_widget
 description: "Pick a date with a custom dialog box in Persian calendar."
-version: 0.0.1
-homepage:
+version: 0.1.2
+homepage: https://github.com/Persian-Widgets
+repository: https://github.com/Persian-Widgets/persian_calendar_widget
+topics: 
+  - persian_calendar
+  - persian_date_picker
+  - shamsi_date_picker
+  - jalali
+  - khorshidi
+  - date_picker
+  - calendar
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
