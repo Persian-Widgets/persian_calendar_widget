@@ -55,6 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 /// user have access to pick day, month and year
                 MinimalPersianCalendar.pickFullDate(
                   context: context,
+                  background: Colors.cyan.shade100,
+                  primaryColor: Colors.cyan.shade700,
+                  onPrimaryColor: Colors.cyan.shade50,
                   onSubmit: (jalaliDate, dateInText) {
                     /// when user choose date from dialog box and submit two
                     /// types of `Jalali` date returned here
