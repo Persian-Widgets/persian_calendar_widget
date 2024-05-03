@@ -14,6 +14,9 @@ class MinimalDialogBox extends StatefulWidget {
   final double borderRadius;
   final OnPickDate? onSubmit;
   final PickDateFormat pickDateFormat;
+  final Color? primaryColor;
+  final Color? onPrimaryColor;
+  final Color? background;
 
   const MinimalDialogBox({
     required this.initialDate,
@@ -22,6 +25,9 @@ class MinimalDialogBox extends StatefulWidget {
     required this.borderRadius,
     required this.maxYear,
     required this.minYear,
+    required this.primaryColor,
+    required this.onPrimaryColor,
+    required this.background,
     super.key,
   });
 
@@ -98,13 +104,14 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
           /// border radius of the main box
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
+        backgroundColor: widget.background,
         children: [
           /// title box decoration
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             margin: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: widget.primaryColor ?? Theme.of(context).primaryColor,
 
               /// title border radius fix by main box border radius value
               borderRadius: BorderRadius.circular(widget.borderRadius * 0.6),
@@ -128,15 +135,17 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                       : null,
                   style: TextButton.styleFrom(
                     backgroundColor: currentPageViewIndex == PageViewIndex.day
-                        ? Theme.of(context).scaffoldBackgroundColor
+                        ? widget.onPrimaryColor ??
+                            Theme.of(context).scaffoldBackgroundColor
                         : Colors.transparent,
                   ),
                   child: Text(
                     formattedDate.d,
                     style: TextStyle(
                       color: currentPageViewIndex == PageViewIndex.day
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                          ? widget.primaryColor ??
+                              Theme.of(context).primaryColor
+                          : widget.onPrimaryColor ?? Colors.white,
                     ),
                   ),
                 ),
@@ -155,15 +164,17 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                       : null,
                   style: TextButton.styleFrom(
                     backgroundColor: currentPageViewIndex == PageViewIndex.month
-                        ? Theme.of(context).scaffoldBackgroundColor
+                        ? widget.onPrimaryColor ??
+                            Theme.of(context).scaffoldBackgroundColor
                         : Colors.transparent,
                   ),
                   child: Text(
                     formattedDate.mN,
                     style: TextStyle(
                       color: currentPageViewIndex == PageViewIndex.month
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                          ? widget.primaryColor ??
+                              Theme.of(context).primaryColor
+                          : widget.onPrimaryColor ?? Colors.white,
                     ),
                   ),
                 ),
@@ -182,15 +193,17 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                       : null,
                   style: TextButton.styleFrom(
                     backgroundColor: currentPageViewIndex == PageViewIndex.year
-                        ? Theme.of(context).scaffoldBackgroundColor
+                        ? widget.onPrimaryColor ??
+                            Theme.of(context).scaffoldBackgroundColor
                         : Colors.transparent,
                   ),
                   child: Text(
                     formattedDate.yyyy,
                     style: TextStyle(
                       color: currentPageViewIndex == PageViewIndex.year
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                          ? widget.primaryColor ??
+                              Theme.of(context).primaryColor
+                          : widget.onPrimaryColor ?? Colors.white,
                     ),
                   ),
                 ),
@@ -218,14 +231,16 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                     return TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: selectedDay == currentDay
-                            ? Theme.of(context).primaryColor
+                            ? widget.primaryColor ??
+                                Theme.of(context).primaryColor
                             : Colors.transparent,
                       ),
                       child: Text(
                         '${index + 1}',
                         style: TextStyle(
-                          color:
-                              selectedDay == currentDay ? Colors.white : null,
+                          color: selectedDay == currentDay
+                              ? widget.onPrimaryColor ?? Colors.white
+                              : widget.primaryColor,
                         ),
                       ),
                       onPressed: () {
@@ -253,7 +268,8 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                     return TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: selectedMonths == currentMonth
-                            ? Theme.of(context).primaryColor
+                            ? widget.primaryColor ??
+                                Theme.of(context).primaryColor
                             : Colors.transparent,
                         maximumSize: const Size.fromWidth(100),
                         minimumSize: const Size.fromWidth(100),
@@ -266,8 +282,8 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                         '${monthsMap[currentMonth]}',
                         style: TextStyle(
                           color: selectedMonths == currentMonth
-                              ? Colors.white
-                              : null,
+                              ? widget.onPrimaryColor ?? Colors.white
+                              : widget.primaryColor,
                         ),
                       ),
                       onPressed: () {
@@ -315,7 +331,8 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                     return TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: selectedYear == currentYear + minYear
-                            ? Theme.of(context).primaryColor
+                            ? widget.primaryColor ??
+                                Theme.of(context).primaryColor
                             : Colors.transparent,
                         maximumSize: const Size.fromWidth(100),
                         minimumSize: const Size.fromWidth(100),
@@ -328,8 +345,8 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                         '${yearsList[index]}',
                         style: TextStyle(
                           color: selectedYear == currentYear + minYear
-                              ? Colors.white
-                              : null,
+                              ? widget.onPrimaryColor ?? Colors.white
+                              : widget.primaryColor,
                         ),
                       ),
                       onPressed: () {
@@ -371,13 +388,17 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: widget.onPrimaryColor,
                           shape: RoundedRectangleBorder(
                             /// elevated button border radius fix by main box border radius value
                             borderRadius: BorderRadius.circular(
                                 widget.borderRadius * 0.6),
                           ),
                         ),
-                        child: const Text('انتخاب'))),
+                        child: Text(
+                          'انتخاب',
+                          style: TextStyle(color: widget.primaryColor),
+                        ))),
                 const SizedBox(
                   width: 8,
                 ),
@@ -392,7 +413,10 @@ class _MinimalDialogBoxState extends State<MinimalDialogBox> {
                             BorderRadius.circular(widget.borderRadius * 0.6),
                       ),
                     ),
-                    child: const Text('کنسل')),
+                    child: Text(
+                      'کنسل',
+                      style: TextStyle(color: widget.primaryColor),
+                    )),
               ],
             ),
           ),

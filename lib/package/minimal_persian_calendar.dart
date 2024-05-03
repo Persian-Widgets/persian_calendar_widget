@@ -11,6 +11,9 @@ class MinimalPersianCalendar {
     required OnPickDate? onSubmit,
     DateTime? initialDate,
     double? borderRadius,
+    Color? primaryColor,
+    Color? onPrimaryColor,
+    Color? background,
   }) {
     showDialog(
       context: context,
@@ -22,6 +25,9 @@ class MinimalPersianCalendar {
           pickDateFormat: PickDateFormat.dd,
           maxYear: null,
           minYear: null,
+          background: background,
+          onPrimaryColor: onPrimaryColor,
+          primaryColor: primaryColor,
         );
       },
     );
@@ -32,6 +38,9 @@ class MinimalPersianCalendar {
     required OnPickDate? onSubmit,
     DateTime? initialDate,
     double? borderRadius,
+    Color? primaryColor,
+    Color? onPrimaryColor,
+    Color? background,
   }) {
     showDialog(
       context: context,
@@ -43,6 +52,9 @@ class MinimalPersianCalendar {
           pickDateFormat: PickDateFormat.ddMM,
           maxYear: null,
           minYear: null,
+          background: background,
+          onPrimaryColor: onPrimaryColor,
+          primaryColor: primaryColor,
         );
       },
     );
@@ -55,6 +67,9 @@ class MinimalPersianCalendar {
     int? maxYear,
     int? minYear,
     double? borderRadius,
+    Color? primaryColor,
+    Color? onPrimaryColor,
+    Color? background,
   }) {
     showDialog(
       context: context,
@@ -66,6 +81,9 @@ class MinimalPersianCalendar {
           pickDateFormat: PickDateFormat.ddMMyyyy,
           maxYear: maxYear,
           minYear: minYear,
+          background: background,
+          onPrimaryColor: onPrimaryColor,
+          primaryColor: primaryColor,
         );
       },
     );
