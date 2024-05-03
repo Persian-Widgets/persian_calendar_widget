@@ -1,4 +1,4 @@
-## 0.1.2
+## 0.1.0
 * Update `README.md` file
 * Add repository URL in `pubspec.yaml` file
 * Add homepage URL in `pubspec.yaml` file
