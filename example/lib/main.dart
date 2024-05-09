@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Center(
               child: Text(
-            selectedDate,
+            selectedDate.toPersianDigit(),
             style: Theme.of(context).textTheme.headlineMedium,
             textDirection: TextDirection.rtl,
           )),
@@ -78,12 +78,76 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 /// open date picker widget
                 /// user have access to pick day and month
-                MinimalPersianCalendar.pickMonthAndDay(
+                CustomDecorationPersianCalendar.pickMonthAndDay(
                   context: context,
                   onSubmit: (jalaliDate, dateInText) {
+                    setState(() {
+                      selectedDate = dateInText;
+                    });
                     log('dateInText of pick month & day: $dateInText');
                     log('jalaliDate of pick month & day: $jalaliDate');
                   },
+                  background: Colors.cyan.shade50,
+
+                  /// change cancel button decoration
+                  cancelTitle: 'لغو',
+                  cancelButtonStyle: TextButton.styleFrom(),
+                  cancelTextStyle: TextStyle(color: Colors.cyan.shade700),
+
+                  /// change submit button decoration
+                  submitTitle: 'ثبت',
+                  submitButtonStyle: ElevatedButton.styleFrom(
+                    elevation: 10,
+                    shadowColor: Colors.cyan.shade400,
+                    backgroundColor: Colors.cyan.shade700,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  submitTextStyle: TextStyle(color: Colors.cyan.shade100),
+
+                  /// change date button decoration
+                  dateButtonStyle: TextButton.styleFrom(),
+                  dateSelectedButtonStyle: TextButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: Colors.cyan.shade700,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  dateTextStyle: TextStyle(
+                    color: Colors.cyan.shade700,
+                  ),
+                  dateSelectedTextStyle: const TextStyle(
+                    color: Colors.white54,
+                  ),
+
+                  /// change title decoration
+                  titleBoxStyle: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      border:
+                          Border.all(color: Colors.cyan.shade500, width: 1.5),
+                      color: Colors.cyan.shade600,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.cyan.shade500,
+                            offset: Offset.zero,
+                            blurRadius: 25)
+                      ]),
+                  titleButtonStyle: TextButton.styleFrom(),
+                  titleSelectedButtonStyle: TextButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: Colors.cyan.shade700,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  titleTextStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                  titleSelectedTextStyle: const TextStyle(
+                    color: Colors.white54,
+                  ),
                 );
               },
               child: const Text('انتخاب روز و ماه')),
