@@ -1,3 +1,9 @@
+## 0.2.0
+* Implement `ToPersianDigit` extension
+* Implement `CustomDecorationPersianCalendar` widget
+* Update example
+* Update `README.md` file
+
 ## 0.1.0
 * Update `README.md` file
 * Add repository URL in `pubspec.yaml` file
