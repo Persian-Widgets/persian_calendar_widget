@@ -1,3 +1,7 @@
+## 0.3.0
+* Implement `pickYearAndMonth` widget
+* Update example
+
 ## 0.2.0
 * Implement `ToPersianDigit` extension
 * Implement `CustomDecorationPersianCalendar` widget
