@@ -73,6 +73,31 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('انتخاب روز ماه و سال')),
 
+          /// pickYearAndMonth dialog box
+          ElevatedButton(
+              onPressed: () {
+                /// open date picker widget
+                /// user have access to pick day, month and year
+                MinimalPersianCalendar.pickYearAndMonth(
+                  context: context,
+                  background: Colors.cyan.shade100,
+                  primaryColor: Colors.cyan.shade700,
+                  onPrimaryColor: Colors.cyan.shade50,
+                  onSubmit: (jalaliDate, dateInText) {
+                    /// when user choose date from dialog box and submit two
+                    /// types of `Jalali` date returned here
+                    /// Jalali [jalaliDate]: Jalali(year, month, day, hour, minute, second, millisecond)
+                    /// String [dateInText]: '۱۴۰۳ اردیبهشت ۱۲'
+                    setState(() {
+                      selectedDate = dateInText;
+                    });
+                    log('dateInText of pick full date: $dateInText');
+                    log('jalaliDate of pick full date: $jalaliDate');
+                  },
+                );
+              },
+              child: const Text('تغییر ماه و سال')),
+
           /// pick month and day dialog box
           ElevatedButton(
               onPressed: () {
