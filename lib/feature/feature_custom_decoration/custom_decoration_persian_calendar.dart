@@ -30,6 +30,13 @@ class CustomDecorationPersianCalendar {
     TextStyle? cancelTextStyle,
     String? submitTitle,
     String? cancelTitle,
+    bool? showTodayBanner,
+    TextStyle? todayTitleBannerTextStyle,
+    TextStyle? todayDateBannerTextStyle,
+    bool? useGoToTodayButton,
+    String? goTitle,
+    TextStyle? goTextStyle,
+    ButtonStyle? goButtonStyle,
   }) {
     showDialog(
       context: context,
@@ -60,6 +67,13 @@ class CustomDecorationPersianCalendar {
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
           calendarType: CalendarType.persian,
+          showTodayBanner: showTodayBanner ?? false,
+          todayTitleBannerTextStyle: todayTitleBannerTextStyle,
+          todayDateBannerTextStyle: todayDateBannerTextStyle,
+          useGoToTodayButton: useGoToTodayButton ?? false,
+          goTitle: goTitle,
+          goButtonStyle: goButtonStyle,
+          goTextStyle: goTextStyle,
         );
       },
     );
@@ -88,6 +102,13 @@ class CustomDecorationPersianCalendar {
     TextStyle? cancelTextStyle,
     String? submitTitle,
     String? cancelTitle,
+    bool? showTodayBanner,
+    TextStyle? todayTitleBannerTextStyle,
+    TextStyle? todayDateBannerTextStyle,
+    bool? useGoToTodayButton,
+    String? goTitle,
+    TextStyle? goTextStyle,
+    ButtonStyle? goButtonStyle,
   }) {
     showDialog(
       context: context,
@@ -118,6 +139,13 @@ class CustomDecorationPersianCalendar {
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
           calendarType: CalendarType.persian,
+          showTodayBanner: showTodayBanner ?? false,
+          todayTitleBannerTextStyle: todayTitleBannerTextStyle,
+          todayDateBannerTextStyle: todayDateBannerTextStyle,
+          useGoToTodayButton: useGoToTodayButton ?? false,
+          goTitle: goTitle,
+          goButtonStyle: goButtonStyle,
+          goTextStyle: goTextStyle,
         );
       },
     );
@@ -148,6 +176,13 @@ class CustomDecorationPersianCalendar {
     TextStyle? cancelTextStyle,
     String? submitTitle,
     String? cancelTitle,
+    bool? showTodayBanner,
+    TextStyle? todayTitleBannerTextStyle,
+    TextStyle? todayDateBannerTextStyle,
+    bool? useGoToTodayButton,
+    String? goTitle,
+    TextStyle? goTextStyle,
+    ButtonStyle? goButtonStyle,
   }) {
     showDialog(
       context: context,
@@ -178,6 +213,13 @@ class CustomDecorationPersianCalendar {
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
           calendarType: CalendarType.persian,
+          showTodayBanner: showTodayBanner ?? false,
+          todayTitleBannerTextStyle: todayTitleBannerTextStyle,
+          todayDateBannerTextStyle: todayDateBannerTextStyle,
+          useGoToTodayButton: useGoToTodayButton ?? false,
+          goTitle: goTitle,
+          goButtonStyle: goButtonStyle,
+          goTextStyle: goTextStyle,
         );
       },
     );
@@ -208,6 +250,13 @@ class CustomDecorationPersianCalendar {
     TextStyle? cancelTextStyle,
     String? submitTitle,
     String? cancelTitle,
+    bool? showTodayBanner,
+    TextStyle? todayTitleBannerTextStyle,
+    TextStyle? todayDateBannerTextStyle,
+    bool? useGoToTodayButton,
+    String? goTitle,
+    TextStyle? goTextStyle,
+    ButtonStyle? goButtonStyle,
   }) {
     showDialog(
       context: context,
@@ -237,6 +286,13 @@ class CustomDecorationPersianCalendar {
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
           calendarType: CalendarType.persian,
+          showTodayBanner: showTodayBanner ?? false,
+          todayTitleBannerTextStyle: todayTitleBannerTextStyle,
+          todayDateBannerTextStyle: todayDateBannerTextStyle,
+          useGoToTodayButton: useGoToTodayButton ?? false,
+          goTitle: goTitle,
+          goButtonStyle: goButtonStyle,
+          goTextStyle: goTextStyle,
         );
       },
     );

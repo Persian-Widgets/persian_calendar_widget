@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/extension/space_xy.dart';
 import 'package:persian_calendar_widget/persian_calendar_widget.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -31,6 +32,13 @@ class DatePickerDialogBox extends StatefulWidget {
   final String? submitTitle;
   final String? cancelTitle;
   final CalendarType calendarType;
+  final bool useGoToTodayButton;
+  final String? goTitle;
+  final ButtonStyle? goButtonStyle;
+  final TextStyle? goTextStyle;
+  final bool showTodayBanner;
+  final TextStyle? todayTitleBannerTextStyle;
+  final TextStyle? todayDateBannerTextStyle;
 
   const DatePickerDialogBox({
     required this.initialDate,
@@ -58,6 +66,13 @@ class DatePickerDialogBox extends StatefulWidget {
     required this.submitTitle,
     required this.cancelTitle,
     required this.calendarType,
+    required this.useGoToTodayButton,
+    required this.goButtonStyle,
+    required this.goTextStyle,
+    required this.goTitle,
+    required this.showTodayBanner,
+    required this.todayDateBannerTextStyle,
+    required this.todayTitleBannerTextStyle,
     super.key,
   });
 
@@ -70,6 +85,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
   late Jalali selectedDate;
   late String selectedDateInText;
   late JalaliFormatter formattedDate;
+  final Jalali today = DateTime.now().toJalali();
 
   late int maxYear;
   late int minYear;
@@ -146,7 +162,12 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
 
                   /// title border radius fix by main box border radius value
                   borderRadius:
-                      BorderRadius.circular(widget.borderRadius * 0.6),
+                      widget.showTodayBanner || widget.useGoToTodayButton
+                          ? BorderRadius.vertical(
+                              top: Radius.circular(widget.borderRadius * .6),
+                              bottom: const Radius.circular(5),
+                            )
+                          : BorderRadius.circular(widget.borderRadius * 0.6),
                 ),
 
             /// title as date info
@@ -285,6 +306,110 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
               ],
             ),
           ),
+          if (widget.showTodayBanner || widget.useGoToTodayButton) 3.spaceY,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                if (widget.useGoToTodayButton) ...[
+                  1.spaceX,
+                  Expanded(
+                    child: SizedBox(
+                      height: 27,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _updateSelectedDate(today);
+                          setState(() {});
+                        },
+                        style: widget.goButtonStyle ??
+                            ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: widget.onPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                /// elevated button border radius fix by main
+                                /// box border radius value
+                                borderRadius: widget.showTodayBanner
+                                    ? BorderRadius.only(
+                                        topLeft: const Radius.circular(5),
+                                        topRight: const Radius.circular(5),
+                                        bottomLeft: const Radius.circular(5),
+                                        bottomRight: Radius.circular(
+                                          widget.borderRadius * 0.6,
+                                        ),
+                                      )
+                                    : BorderRadius.vertical(
+                                        bottom: Radius.circular(
+                                          widget.borderRadius * .6,
+                                        ),
+                                        top: const Radius.circular(5),
+                                      ),
+                              ),
+                            ),
+                        child: Text(
+                          widget.goTitle ??
+                              (widget.showTodayBanner
+                                  ? 'برو به'
+                                  : 'برو به امروز'),
+                          style: widget.goTextStyle ??
+                              TextStyle(
+                                color: widget.primaryColor,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  1.spaceX,
+                ],
+                if (widget.showTodayBanner && widget.useGoToTodayButton)
+                  3.spaceX,
+                if (widget.showTodayBanner)
+                  Expanded(
+                    flex: 2,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: widget.useGoToTodayButton
+                            ? BorderRadius.only(
+                                topLeft: const Radius.circular(5),
+                                topRight: const Radius.circular(5),
+                                bottomRight: const Radius.circular(5),
+                                bottomLeft:
+                                    Radius.circular(widget.borderRadius * 0.6),
+                              )
+                            : BorderRadius.vertical(
+                                bottom:
+                                    Radius.circular(widget.borderRadius * .6),
+                                top: const Radius.circular(5),
+                              ),
+                        border: Border.all(
+                          color: widget.primaryColor ??
+                              Theme.of(context).primaryColor,
+                          width: .5,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: Text(
+                          widget.calendarType == CalendarType.persian
+                              ?
+                              // ignore: lines_longer_than_80_chars
+                              ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}'
+                                  .toPersianDigit()
+                              // ignore: lines_longer_than_80_chars
+                              : ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}',
+                          style: widget.todayDateBannerTextStyle ??
+                              TextStyle(
+                                color: widget.primaryColor ??
+                                    Theme.of(context).primaryColor,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
           SizedBox(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).width * .78,
@@ -497,6 +622,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
               ],
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
