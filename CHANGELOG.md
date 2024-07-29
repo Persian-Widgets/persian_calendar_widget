@@ -1,3 +1,7 @@
+## 0.4.0
+* Implement go to button and today banner
+* Update example
+
 ## 0.3.0
 * Implement `pickYearAndMonth` widget
 * Update example
