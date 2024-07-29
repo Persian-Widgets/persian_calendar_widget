@@ -69,6 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     log('dateInText of pick full date: $dateInText');
                     log('jalaliDate of pick full date: $jalaliDate');
                   },
+                  showTodayBanner: true,
+                  useGoToTodayButton: true,
                 );
               },
               child: const Text('انتخاب روز ماه و سال')),
@@ -94,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     log('dateInText of pick full date: $dateInText');
                     log('jalaliDate of pick full date: $jalaliDate');
                   },
+                  useGoToTodayButton: true,
                 );
               },
               child: const Text('تغییر ماه و سال')),
@@ -188,6 +191,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     log('dateInText of pick day: $dateInText');
                     log('jalaliDate of pick day: $jalaliDate');
                   },
+                  showTodayBanner: true,
+                  useGoToTodayButton: true,
                 );
               },
               child: const Text('انتخاب روز')),
