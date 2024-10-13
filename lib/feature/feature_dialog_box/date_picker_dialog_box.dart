@@ -1,7 +1,9 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/enum/enum.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
-import 'package:persian_calendar_widget/persian_calendar_widget.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 typedef OnPickDate = void Function(Jalali jalaliDate, String dateInText);
@@ -411,8 +413,8 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
           ),
 
           SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).width * .78,
+            width: 100,
+            height: 280,
             child: PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
