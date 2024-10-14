@@ -37,6 +37,9 @@ class CustomDecorationPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     ButtonStyle? goButtonStyle,
+    BoxDecoration? weekDaysBoxStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -74,6 +77,9 @@ class CustomDecorationPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: goButtonStyle,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: weekDaysBoxStyle,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );
@@ -109,6 +115,9 @@ class CustomDecorationPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     ButtonStyle? goButtonStyle,
+    BoxDecoration? weekDaysBoxStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -146,6 +155,9 @@ class CustomDecorationPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: goButtonStyle,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: weekDaysBoxStyle,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );
@@ -183,6 +195,9 @@ class CustomDecorationPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     ButtonStyle? goButtonStyle,
+    BoxDecoration? weekDaysBoxStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -220,6 +235,9 @@ class CustomDecorationPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: goButtonStyle,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: weekDaysBoxStyle,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );

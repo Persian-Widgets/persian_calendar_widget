@@ -1,9 +1,9 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/enum/enum.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
 import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
+import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
+import 'package:persian_calendar_widget/core/widgets/week_days_list.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 typedef OnPickDate = void Function(Jalali jalaliDate, String dateInText);
@@ -23,6 +23,9 @@ class DatePickerDialogBox extends StatefulWidget {
   final ButtonStyle? titleSelectedButtonStyle;
   final TextStyle? titleTextStyle;
   final TextStyle? titleSelectedTextStyle;
+  final BoxDecoration? weekDaysBoxStyle;
+  final EdgeInsetsGeometry? weekDaysPadding;
+  final TextStyle? weekDaysTextStyle;
   final ButtonStyle? dateButtonStyle;
   final ButtonStyle? dateSelectedButtonStyle;
   final TextStyle? dateTextStyle;
@@ -75,6 +78,9 @@ class DatePickerDialogBox extends StatefulWidget {
     required this.showTodayBanner,
     required this.todayDateBannerTextStyle,
     required this.todayTitleBannerTextStyle,
+    required this.weekDaysBoxStyle,
+    required this.weekDaysPadding,
+    required this.weekDaysTextStyle,
     super.key,
   });
 
@@ -100,20 +106,19 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
   late int selectedMonths;
   late int selectedYear;
 
-  final Map<int, String> monthsMap = {
-    1: 'فروردین',
-    2: 'اردیبهشت',
-    3: 'خرداد',
-    4: 'تیر',
-    5: 'مرداد',
-    6: 'شهریور',
-    7: 'مهر',
-    8: 'آبان',
-    9: 'آذر',
-    10: 'دی',
-    11: 'بهمن',
-    12: 'اسفند',
-  };
+  (int, int) getSelectedDateLength() {
+    int monthLength = selectedDate.monthLength;
+    final Jalali thisMonthInfo = Jalali(selectedYear, selectedMonths);
+    final String weekNameOfFirstDay =
+        thisMonthInfo.formatter.wN.substring(0, 1);
+    final int weekDayNumber = AppConstants.weekMap.entries
+        .firstWhere(
+          (element) => element.value == weekNameOfFirstDay,
+        )
+        .key;
+    monthLength = monthLength + weekDayNumber - 1;
+    return (monthLength, weekDayNumber);
+  }
 
   @override
   void initState() {
@@ -374,12 +379,14 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                 topLeft: const Radius.circular(5),
                                 topRight: const Radius.circular(5),
                                 bottomRight: const Radius.circular(5),
-                                bottomLeft:
-                                    Radius.circular(widget.borderRadius * 0.6),
+                                bottomLeft: Radius.circular(
+                                  widget.borderRadius * 0.6,
+                                ),
                               )
                             : BorderRadius.vertical(
-                                bottom:
-                                    Radius.circular(widget.borderRadius * .6),
+                                bottom: Radius.circular(
+                                  widget.borderRadius * .6,
+                                ),
                                 top: const Radius.circular(5),
                               ),
                         border: Border.all(
@@ -413,62 +420,85 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
           ),
 
           SizedBox(
-            width: 100,
+            width: 300,
             height: 280,
             child: PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 /// day screen
-                GridView.builder(
-                  padding: const EdgeInsets.only(
-                    right: 12,
-                    left: 12,
-                    top: 10,
-                    bottom: 5,
-                  ),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 50,
-                  ),
-                  itemCount: selectedDate.monthLength,
-                  itemBuilder: (context, index) {
-                    final int currentDay = index + 1;
+                Stack(
+                  children: [
+                    Positioned.fill(
+                      top: 51,
+                      child: GridView.builder(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          left: 12,
+                          top: 3,
+                          bottom: 5,
+                        ),
+                        shrinkWrap: true,
+                        // physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 7,
+                        ),
+                        itemCount: getSelectedDateLength().$1,
+                        itemBuilder: (context, index) {
+                          final int currentDay =
+                              index + 2 - getSelectedDateLength().$2;
 
-                    return TextButton(
-                      style: widget.dateButtonStyle == null
-                          ? TextButton.styleFrom(
-                              backgroundColor: selectedDay == currentDay
-                                  ? widget.primaryColor ??
-                                      Theme.of(context).primaryColor
-                                  : Colors.transparent,
-                            )
-                          : selectedDay == currentDay
-                              ? widget.dateSelectedButtonStyle ??
-                                  widget.dateButtonStyle
-                              : widget.dateButtonStyle,
-                      child: Text(
-                        widget.calendarType == CalendarType.persian
-                            ? '${index + 1}'.toPersianDigit()
-                            : '${index + 1}',
-                        style: widget.dateTextStyle == null
-                            ? TextStyle(
-                                color: selectedDay == currentDay
-                                    ? widget.onPrimaryColor ?? Colors.white
-                                    : widget.primaryColor,
-                              )
-                            : selectedDay == currentDay
-                                ? widget.dateSelectedTextStyle ??
-                                    widget.dateTextStyle
-                                : widget.dateTextStyle,
+                          if (currentDay < 1) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return TextButton(
+                            style: widget.dateButtonStyle == null
+                                ? TextButton.styleFrom(
+                                    backgroundColor: selectedDay == currentDay
+                                        ? widget.primaryColor ??
+                                            Theme.of(context).primaryColor
+                                        : Colors.transparent,
+                                  )
+                                : selectedDay == currentDay
+                                    ? widget.dateSelectedButtonStyle ??
+                                        widget.dateButtonStyle
+                                    : widget.dateButtonStyle,
+                            child: Text(
+                              widget.calendarType == CalendarType.persian
+                                  ? '$currentDay'.toPersianDigit()
+                                  : '$currentDay',
+                              style: widget.dateTextStyle == null
+                                  ? TextStyle(
+                                      color: selectedDay == currentDay
+                                          ? widget.onPrimaryColor ??
+                                              Colors.white
+                                          : widget.primaryColor,
+                                    )
+                                  : selectedDay == currentDay
+                                      ? widget.dateSelectedTextStyle ??
+                                          widget.dateTextStyle
+                                      : widget.dateTextStyle,
+                            ),
+                            onPressed: () {
+                              /// set new date with new index
+                              _updateSelectedDate(
+                                selectedDate.withDay(currentDay),
+                              );
+                              setState(() {});
+                            },
+                          );
+                        },
                       ),
-                      onPressed: () {
-                        /// set new date with new index
-                        _updateSelectedDate(selectedDate.withDay(currentDay));
-                        setState(() {});
-                      },
-                    );
-                  },
+                    ),
+                    WeekDaysList(
+                      primaryColor: widget.primaryColor,
+                      boxDecoration: widget.weekDaysBoxStyle,
+                      tilesPadding: widget.weekDaysPadding,
+                      textStyle: widget.cancelTextStyle,
+                    ),
+                  ],
                 ),
 
                 /// month screen
@@ -484,7 +514,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                     maxCrossAxisExtent: 100,
                     childAspectRatio: 1.7,
                   ),
-                  itemCount: monthsMap.length,
+                  itemCount: AppConstants.monthsMap.length,
                   itemBuilder: (context, index) {
                     final int currentMonth = index + 1;
 
@@ -506,7 +536,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                   widget.dateButtonStyle
                               : widget.dateButtonStyle,
                       child: Text(
-                        '${monthsMap[currentMonth]}',
+                        '${AppConstants.monthsMap[currentMonth]}',
                         style: widget.dateTextStyle == null
                             ? TextStyle(
                                 color: selectedMonths == currentMonth
@@ -728,7 +758,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
 
     /// update selected date in text
     selectedDateInText =
-        '$selectedDay ${monthsMap[selectedMonths]} $selectedYear';
+        '$selectedDay ${AppConstants.monthsMap[selectedMonths]} $selectedYear';
   }
 }
 

@@ -26,6 +26,8 @@ class MinimalPersianCalendar {
     bool? useGoToTodayButton,
     String? goTitle,
     TextStyle? goTextStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -63,6 +65,9 @@ class MinimalPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: null,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: null,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );
@@ -90,6 +95,8 @@ class MinimalPersianCalendar {
     bool? useGoToTodayButton,
     String? goTitle,
     TextStyle? goTextStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -127,6 +134,9 @@ class MinimalPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: null,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: null,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );
@@ -156,6 +166,8 @@ class MinimalPersianCalendar {
     bool? useGoToTodayButton,
     String? goTitle,
     TextStyle? goTextStyle,
+    EdgeInsetsGeometry? weekDaysPadding,
+    TextStyle? weekDaysTextStyle,
   }) {
     showDialog(
       context: context,
@@ -193,6 +205,9 @@ class MinimalPersianCalendar {
           goTitle: goTitle,
           goButtonStyle: null,
           goTextStyle: goTextStyle,
+          weekDaysBoxStyle: null,
+          weekDaysPadding: weekDaysPadding,
+          weekDaysTextStyle: weekDaysTextStyle,
         );
       },
     );
