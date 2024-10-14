@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/enum/enum.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
+import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 import 'package:persian_calendar_widget/persian_calendar_widget.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -100,21 +101,6 @@ class _DatePickerDialogBoxWithoutDayState
   // late int selectedDay;
   late int selectedMonths;
   late int selectedYear;
-
-  final Map<int, String> monthsMap = {
-    1: 'فروردین',
-    2: 'اردیبهشت',
-    3: 'خرداد',
-    4: 'تیر',
-    5: 'مرداد',
-    6: 'شهریور',
-    7: 'مهر',
-    8: 'آبان',
-    9: 'آذر',
-    10: 'دی',
-    11: 'بهمن',
-    12: 'اسفند',
-  };
 
   @override
   void initState() {
@@ -381,7 +367,7 @@ class _DatePickerDialogBoxWithoutDayState
                     maxCrossAxisExtent: 100,
                     childAspectRatio: 1.7,
                   ),
-                  itemCount: monthsMap.length,
+                  itemCount: AppConstants.monthsMap.length,
                   itemBuilder: (context, index) {
                     final int currentMonth = index + 1;
 
@@ -403,7 +389,7 @@ class _DatePickerDialogBoxWithoutDayState
                                   widget.dateButtonStyle
                               : widget.dateButtonStyle,
                       child: Text(
-                        '${monthsMap[currentMonth]}',
+                        '${AppConstants.monthsMap[currentMonth]}',
                         style: widget.dateTextStyle == null
                             ? TextStyle(
                                 color: selectedMonths == currentMonth
@@ -567,7 +553,8 @@ class _DatePickerDialogBoxWithoutDayState
     selectedYear = selectedDate.year;
 
     /// update selected date in text
-    selectedDateInText = '${monthsMap[selectedMonths]} $selectedYear';
+    selectedDateInText =
+        '${AppConstants.monthsMap[selectedMonths]} $selectedYear';
   }
 }
 
