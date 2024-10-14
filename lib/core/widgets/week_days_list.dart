@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 
 class WeekDaysList extends StatelessWidget {
@@ -49,7 +50,7 @@ class WeekDaysList extends StatelessWidget {
                       TextStyle(
                         color: primaryColor ?? Theme.of(context).primaryColor,
                       ),
-                ),
+                ).scaleDown,
               ),
             ),
           );

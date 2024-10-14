@@ -3,7 +3,14 @@ import 'package:persian_calendar_widget/core/enum/enum.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
 import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
+import 'package:persian_calendar_widget/core/widgets/cancel_button.dart';
+import 'package:persian_calendar_widget/core/widgets/choose_button.dart';
+import 'package:persian_calendar_widget/core/widgets/day_page_view.dart';
+import 'package:persian_calendar_widget/core/widgets/month_page_view.dart';
+import 'package:persian_calendar_widget/core/widgets/today_context.dart';
+import 'package:persian_calendar_widget/core/widgets/type_data_button.dart';
 import 'package:persian_calendar_widget/core/widgets/week_days_list.dart';
+import 'package:persian_calendar_widget/core/widgets/year_page_view.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 typedef OnPickDate = void Function(Jalali jalaliDate, String dateInText);
@@ -93,7 +100,6 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
   late Jalali selectedDate;
   late String selectedDateInText;
   late JalaliFormatter formattedDate;
-  final Jalali today = DateTime.now().toJalali();
 
   late int maxYear;
   late int minYear;
@@ -105,20 +111,6 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
   late int selectedDay;
   late int selectedMonths;
   late int selectedYear;
-
-  (int, int) getSelectedDateLength() {
-    int monthLength = selectedDate.monthLength;
-    final Jalali thisMonthInfo = Jalali(selectedYear, selectedMonths);
-    final String weekNameOfFirstDay =
-        thisMonthInfo.formatter.wN.substring(0, 1);
-    final int weekDayNumber = AppConstants.weekMap.entries
-        .firstWhere(
-          (element) => element.value == weekNameOfFirstDay,
-        )
-        .key;
-    monthLength = monthLength + weekDayNumber - 1;
-    return (monthLength, weekDayNumber);
-  }
 
   @override
   void initState() {
@@ -179,10 +171,11 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
 
             /// title as date info
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                12.0.spaceX,
+
                 /// day button
-                TextButton(
+                TypeDataButton(
                   onPressed: _daysButtonStatus()
                       ? () {
                           _pageController.animateToPage(
@@ -195,38 +188,21 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                           });
                         }
                       : null,
-                  style: widget.titleButtonStyle == null
-                      ? TextButton.styleFrom(
-                          backgroundColor:
-                              currentPageViewIndex == PageViewIndex.day
-                                  ? widget.onPrimaryColor ??
-                                      Theme.of(context).scaffoldBackgroundColor
-                                  : Colors.transparent,
-                        )
-                      : currentPageViewIndex == PageViewIndex.day
-                          ? widget.titleSelectedButtonStyle ??
-                              widget.titleButtonStyle
-                          : widget.titleButtonStyle,
-                  child: Text(
-                    widget.calendarType == CalendarType.persian
-                        ? formattedDate.d.toPersianDigit()
-                        : formattedDate.d,
-                    style: widget.titleTextStyle == null
-                        ? TextStyle(
-                            color: currentPageViewIndex == PageViewIndex.day
-                                ? widget.primaryColor ??
-                                    Theme.of(context).primaryColor
-                                : widget.onPrimaryColor ?? Colors.white,
-                          )
-                        : currentPageViewIndex == PageViewIndex.day
-                            ? widget.titleSelectedTextStyle ??
-                                widget.titleTextStyle
-                            : widget.titleTextStyle,
-                  ),
+                  buttonStyle: widget.titleButtonStyle,
+                  selectedButtonStyle: widget.titleSelectedButtonStyle,
+                  title: widget.calendarType == CalendarType.persian
+                      ? formattedDate.d.toPersianDigit()
+                      : formattedDate.d,
+                  isSelected: currentPageViewIndex == PageViewIndex.day,
+                  textStyle: widget.titleTextStyle,
+                  selectedTextStyle: widget.titleSelectedTextStyle,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  primaryColor: widget.primaryColor,
                 ),
+                5.0.spaceX,
 
                 /// month button
-                TextButton(
+                TypeDataButton(
                   onPressed: _monthsButtonStatus()
                       ? () {
                           _pageController.animateToPage(
@@ -239,36 +215,19 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                           });
                         }
                       : null,
-                  style: widget.titleButtonStyle == null
-                      ? TextButton.styleFrom(
-                          backgroundColor:
-                              currentPageViewIndex == PageViewIndex.month
-                                  ? widget.onPrimaryColor ??
-                                      Theme.of(context).scaffoldBackgroundColor
-                                  : Colors.transparent,
-                        )
-                      : currentPageViewIndex == PageViewIndex.month
-                          ? widget.titleSelectedButtonStyle ??
-                              widget.titleButtonStyle
-                          : widget.titleButtonStyle,
-                  child: Text(
-                    formattedDate.mN,
-                    style: widget.titleTextStyle == null
-                        ? TextStyle(
-                            color: currentPageViewIndex == PageViewIndex.month
-                                ? widget.primaryColor ??
-                                    Theme.of(context).primaryColor
-                                : widget.onPrimaryColor ?? Colors.white,
-                          )
-                        : currentPageViewIndex == PageViewIndex.month
-                            ? widget.titleSelectedTextStyle ??
-                                widget.titleTextStyle
-                            : widget.titleTextStyle,
-                  ),
+                  buttonStyle: widget.titleButtonStyle,
+                  selectedButtonStyle: widget.titleSelectedButtonStyle,
+                  title: formattedDate.mN,
+                  isSelected: currentPageViewIndex == PageViewIndex.month,
+                  textStyle: widget.titleTextStyle,
+                  selectedTextStyle: widget.titleSelectedTextStyle,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  primaryColor: widget.primaryColor,
                 ),
+                5.0.spaceX,
 
                 /// year button
-                TextButton(
+                TypeDataButton(
                   onPressed: _yearsButtonStatus()
                       ? () {
                           _pageController.animateToPage(
@@ -281,143 +240,40 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                           });
                         }
                       : null,
-                  style: widget.titleButtonStyle == null
-                      ? TextButton.styleFrom(
-                          backgroundColor:
-                              currentPageViewIndex == PageViewIndex.year
-                                  ? widget.onPrimaryColor ??
-                                      Theme.of(context).scaffoldBackgroundColor
-                                  : Colors.transparent,
-                        )
-                      : currentPageViewIndex == PageViewIndex.year
-                          ? widget.titleSelectedButtonStyle ??
-                              widget.titleButtonStyle
-                          : widget.titleButtonStyle,
-                  child: Text(
-                    widget.calendarType == CalendarType.persian
-                        ? formattedDate.yyyy.toPersianDigit()
-                        : formattedDate.yyyy,
-                    style: widget.titleTextStyle == null
-                        ? TextStyle(
-                            color: currentPageViewIndex == PageViewIndex.year
-                                ? widget.primaryColor ??
-                                    Theme.of(context).primaryColor
-                                : widget.onPrimaryColor ?? Colors.white,
-                          )
-                        : currentPageViewIndex == PageViewIndex.year
-                            ? widget.titleSelectedTextStyle ??
-                                widget.titleTextStyle
-                            : widget.titleTextStyle,
-                  ),
+                  buttonStyle: widget.titleButtonStyle,
+                  selectedButtonStyle: widget.titleSelectedButtonStyle,
+                  title: widget.calendarType == CalendarType.persian
+                      ? formattedDate.yyyy.toPersianDigit()
+                      : formattedDate.yyyy,
+                  isSelected: currentPageViewIndex == PageViewIndex.year,
+                  textStyle: widget.titleTextStyle,
+                  selectedTextStyle: widget.titleSelectedTextStyle,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  primaryColor: widget.primaryColor,
                 ),
+                12.0.spaceX,
               ],
             ),
           ),
-          if (widget.showTodayBanner || widget.useGoToTodayButton) 3.spaceY,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              children: [
-                if (widget.useGoToTodayButton) ...[
-                  1.spaceX,
-                  Expanded(
-                    child: SizedBox(
-                      height: 27,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _updateSelectedDate(today);
-                          setState(() {});
-                        },
-                        style: widget.goButtonStyle ??
-                            ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              backgroundColor: widget.onPrimaryColor,
-                              shape: RoundedRectangleBorder(
-                                /// elevated button border radius fix by main
-                                /// box border radius value
-                                borderRadius: widget.showTodayBanner
-                                    ? BorderRadius.only(
-                                        topLeft: const Radius.circular(5),
-                                        topRight: const Radius.circular(5),
-                                        bottomLeft: const Radius.circular(5),
-                                        bottomRight: Radius.circular(
-                                          widget.borderRadius * 0.6,
-                                        ),
-                                      )
-                                    : BorderRadius.vertical(
-                                        bottom: Radius.circular(
-                                          widget.borderRadius * .6,
-                                        ),
-                                        top: const Radius.circular(5),
-                                      ),
-                              ),
-                            ),
-                        child: Text(
-                          widget.goTitle ??
-                              (widget.showTodayBanner
-                                  ? 'برو به'
-                                  : 'برو به امروز'),
-                          style: widget.goTextStyle ??
-                              TextStyle(
-                                color: widget.primaryColor,
-                              ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  1.spaceX,
-                ],
-                if (widget.showTodayBanner && widget.useGoToTodayButton)
-                  3.spaceX,
-                if (widget.showTodayBanner)
-                  Expanded(
-                    flex: 2,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: widget.useGoToTodayButton
-                            ? BorderRadius.only(
-                                topLeft: const Radius.circular(5),
-                                topRight: const Radius.circular(5),
-                                bottomRight: const Radius.circular(5),
-                                bottomLeft: Radius.circular(
-                                  widget.borderRadius * 0.6,
-                                ),
-                              )
-                            : BorderRadius.vertical(
-                                bottom: Radius.circular(
-                                  widget.borderRadius * .6,
-                                ),
-                                top: const Radius.circular(5),
-                              ),
-                        border: Border.all(
-                          color: widget.primaryColor ??
-                              Theme.of(context).primaryColor,
-                          width: .5,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Text(
-                          widget.calendarType == CalendarType.persian
-                              ?
-                              // ignore: lines_longer_than_80_chars
-                              ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}'
-                                  .toPersianDigit()
-                              // ignore: lines_longer_than_80_chars
-                              : ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}',
-                          style: widget.todayDateBannerTextStyle ??
-                              TextStyle(
-                                color: widget.primaryColor ??
-                                    Theme.of(context).primaryColor,
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+          if (widget.showTodayBanner || widget.useGoToTodayButton) ...[
+            3.spaceY,
+            TodayContext(
+              useGoToTodayButton: widget.useGoToTodayButton,
+              showTodayBanner: widget.showTodayBanner,
+              onPressed: (today) {
+                _updateSelectedDate(today);
+                setState(() {});
+              },
+              buttonStyle: widget.goButtonStyle,
+              onPrimaryColor: widget.onPrimaryColor,
+              primaryColor: widget.primaryColor,
+              borderRadius: widget.borderRadius,
+              isPersian: widget.calendarType == CalendarType.persian,
+              title: widget.goTitle,
+              goTextStyle: widget.goTextStyle,
+              todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
             ),
-          ),
+          ],
 
           SizedBox(
             width: 300,
@@ -427,228 +283,102 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 /// day screen
-                Stack(
-                  children: [
-                    Positioned.fill(
-                      top: 51,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(
-                          right: 12,
-                          left: 12,
-                          top: 3,
-                          bottom: 5,
-                        ),
-                        shrinkWrap: true,
-                        // physics: const BouncingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7,
-                        ),
-                        itemCount: getSelectedDateLength().$1,
-                        itemBuilder: (context, index) {
-                          final int currentDay =
-                              index + 2 - getSelectedDateLength().$2;
-
-                          if (currentDay < 1) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return TextButton(
-                            style: widget.dateButtonStyle == null
-                                ? TextButton.styleFrom(
-                                    backgroundColor: selectedDay == currentDay
-                                        ? widget.primaryColor ??
-                                            Theme.of(context).primaryColor
-                                        : Colors.transparent,
-                                  )
-                                : selectedDay == currentDay
-                                    ? widget.dateSelectedButtonStyle ??
-                                        widget.dateButtonStyle
-                                    : widget.dateButtonStyle,
-                            child: Text(
-                              widget.calendarType == CalendarType.persian
-                                  ? '$currentDay'.toPersianDigit()
-                                  : '$currentDay',
-                              style: widget.dateTextStyle == null
-                                  ? TextStyle(
-                                      color: selectedDay == currentDay
-                                          ? widget.onPrimaryColor ??
-                                              Colors.white
-                                          : widget.primaryColor,
-                                    )
-                                  : selectedDay == currentDay
-                                      ? widget.dateSelectedTextStyle ??
-                                          widget.dateTextStyle
-                                      : widget.dateTextStyle,
-                            ),
-                            onPressed: () {
-                              /// set new date with new index
-                              _updateSelectedDate(
-                                selectedDate.withDay(currentDay),
-                              );
-                              setState(() {});
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                    WeekDaysList(
-                      primaryColor: widget.primaryColor,
-                      boxDecoration: widget.weekDaysBoxStyle,
-                      tilesPadding: widget.weekDaysPadding,
-                      textStyle: widget.cancelTextStyle,
-                    ),
-                  ],
+                DayPageView(
+                  selectedDate: selectedDate,
+                  selectedMonths: selectedMonths,
+                  selectedYear: selectedYear,
+                  selectedDay: selectedDay,
+                  dateButtonStyle: widget.dateButtonStyle,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  primaryColor: widget.primaryColor,
+                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                  isPersian: widget.calendarType == CalendarType.persian,
+                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                  dateTextStyle: widget.dateTextStyle,
+                  onPressed: (currentDay) {
+                    /// set new date with new index
+                    _updateSelectedDate(
+                      selectedDate.withDay(currentDay),
+                    );
+                    setState(() {});
+                  },
+                  child: WeekDaysList(
+                    primaryColor: widget.primaryColor,
+                    boxDecoration: widget.weekDaysBoxStyle,
+                    tilesPadding: widget.weekDaysPadding,
+                    textStyle: widget.weekDaysTextStyle,
+                  ),
                 ),
 
                 /// month screen
-                GridView.builder(
-                  padding: const EdgeInsets.only(
-                    right: 12,
-                    left: 12,
-                    top: 10,
-                    bottom: 5,
-                  ),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 100,
-                    childAspectRatio: 1.7,
-                  ),
-                  itemCount: AppConstants.monthsMap.length,
-                  itemBuilder: (context, index) {
-                    final int currentMonth = index + 1;
+                MonthPageView(
+                  dateButtonStyle: widget.dateButtonStyle,
+                  selectedMonths: selectedMonths,
+                  primaryColor: widget.primaryColor,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                  dateTextStyle: widget.dateTextStyle,
+                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                  onPressed: (currentMonth) {
+                    /// check the selected day if is 31 or 30 have to check
+                    /// the month
+                    /// if selected month is 12 have to check the leap year
+                    /// then decide the last day of the month is 29 or 30
+                    if ((selectedDay == 31 || selectedDay == 30) &&
+                        currentMonth == 12) {
+                      if (selectedDate.isLeapYear()) {
+                        _updateSelectedDate(selectedDate.withDay(30));
+                      } else {
+                        _updateSelectedDate(selectedDate.withDay(29));
+                      }
+                    }
 
-                    return TextButton(
-                      style: widget.dateButtonStyle == null
-                          ? TextButton.styleFrom(
-                              backgroundColor: selectedMonths == currentMonth
-                                  ? widget.primaryColor ??
-                                      Theme.of(context).primaryColor
-                                  : Colors.transparent,
-                              maximumSize: const Size.fromWidth(100),
-                              minimumSize: const Size.fromWidth(100),
-                              padding: EdgeInsets.zero,
+                    /// if selected month is 6 to 11 have to check the
+                    /// selected day and change it
+                    if (selectedDay == 31 && currentMonth > 6) {
+                      _updateSelectedDate(selectedDate.withDay(30));
+                    }
 
-                              // fixedSize: const Size(100, 0),
-                            )
-                          : selectedMonths == currentMonth
-                              ? widget.dateSelectedButtonStyle ??
-                                  widget.dateButtonStyle
-                              : widget.dateButtonStyle,
-                      child: Text(
-                        '${AppConstants.monthsMap[currentMonth]}',
-                        style: widget.dateTextStyle == null
-                            ? TextStyle(
-                                color: selectedMonths == currentMonth
-                                    ? widget.onPrimaryColor ?? Colors.white
-                                    : widget.primaryColor,
-                              )
-                            : selectedMonths == currentMonth
-                                ? widget.dateSelectedTextStyle ??
-                                    widget.dateTextStyle
-                                : widget.dateTextStyle,
-                      ),
-                      onPressed: () {
-                        /// check the selected day if is 31 or 30 have to check
-                        /// the month
-                        /// if selected month is 12 have to check the leap year
-                        /// then decide the last day of the month is 29 or 30
-                        if ((selectedDay == 31 || selectedDay == 30) &&
-                            currentMonth == 12) {
-                          if (selectedDate.isLeapYear()) {
-                            _updateSelectedDate(selectedDate.withDay(30));
-                          } else {
-                            _updateSelectedDate(selectedDate.withDay(29));
-                          }
-                        }
-
-                        /// if selected month is 6 to 11 have to check the
-                        /// selected day and change it
-                        if (selectedDay == 31 && currentMonth > 6) {
-                          _updateSelectedDate(selectedDate.withDay(30));
-                        }
-
-                        /// set new date with new index
-                        _updateSelectedDate(
-                          selectedDate.withMonth(currentMonth),
-                        );
-                        setState(() {});
-                      },
+                    /// set new date with new index
+                    _updateSelectedDate(
+                      selectedDate.withMonth(currentMonth),
                     );
+                    setState(() {});
                   },
                 ),
 
                 /// year screen
-                GridView.builder(
-                  padding: const EdgeInsets.only(
-                    right: 12,
-                    left: 12,
-                    top: 10,
-                    bottom: 5,
-                  ),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 100,
-                    childAspectRatio: 1.7,
-                  ),
-                  itemCount: yearsList.length,
-                  itemBuilder: (context, index) {
-                    final int currentYear = index;
+                YearPageView(
+                  listLength: yearsList.length,
+                  dateButtonStyle: widget.dateButtonStyle,
+                  selectedYear: selectedYear,
+                  minYear: minYear,
+                  primaryColor: widget.primaryColor,
+                  onPrimaryColor: widget.onPrimaryColor,
+                  isPersian: widget.calendarType == CalendarType.persian,
+                  yearsList: yearsList,
+                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                  dateTextStyle: widget.dateTextStyle,
+                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                  onPressed: (currentYear) {
+                    /// check the selected day if is 31 or 30 have to check
+                    /// the month
+                    /// if selected month is 12 have to check the leap year
+                    /// then decide the last day of the month is 29 or 30
+                    if (selectedDay == 30 && selectedMonths == 12) {
+                      final Jalali newDate = Jalali(currentYear + minYear);
+                      if (newDate.isLeapYear()) {
+                        _updateSelectedDate(selectedDate.withDay(30));
+                      } else {
+                        _updateSelectedDate(selectedDate.withDay(29));
+                      }
+                    }
 
-                    return TextButton(
-                      style: widget.dateButtonStyle == null
-                          ? TextButton.styleFrom(
-                              backgroundColor:
-                                  selectedYear == currentYear + minYear
-                                      ? widget.primaryColor ??
-                                          Theme.of(context).primaryColor
-                                      : Colors.transparent,
-                              maximumSize: const Size.fromWidth(100),
-                              minimumSize: const Size.fromWidth(100),
-                              padding: EdgeInsets.zero,
-
-                              // fixedSize: const Size(100, 0),
-                            )
-                          : selectedYear == currentYear + minYear
-                              ? widget.dateSelectedButtonStyle ??
-                                  widget.dateButtonStyle
-                              : widget.dateButtonStyle,
-                      child: Text(
-                        widget.calendarType == CalendarType.persian
-                            ? '${yearsList[index]}'.toPersianDigit()
-                            : '${yearsList[index]}',
-                        style: widget.dateTextStyle == null
-                            ? TextStyle(
-                                color: selectedYear == currentYear + minYear
-                                    ? widget.onPrimaryColor ?? Colors.white
-                                    : widget.primaryColor,
-                              )
-                            : selectedYear == currentYear + minYear
-                                ? widget.dateSelectedTextStyle ??
-                                    widget.dateTextStyle
-                                : widget.dateTextStyle,
-                      ),
-                      onPressed: () {
-                        /// check the selected day if is 31 or 30 have to check
-                        /// the month
-                        /// if selected month is 12 have to check the leap year
-                        /// then decide the last day of the month is 29 or 30
-                        if (selectedDay == 30 && selectedMonths == 12) {
-                          final Jalali newDate = Jalali(currentYear + minYear);
-                          if (newDate.isLeapYear()) {
-                            _updateSelectedDate(selectedDate.withDay(30));
-                          } else {
-                            _updateSelectedDate(selectedDate.withDay(29));
-                          }
-                        }
-
-                        /// set new date with new index
-                        _updateSelectedDate(
-                          selectedDate.withYear(currentYear + minYear),
-                        );
-                        setState(() {});
-                      },
+                    /// set new date with new index
+                    _updateSelectedDate(
+                      selectedDate.withYear(currentYear + minYear),
                     );
+                    setState(() {});
                   },
                 ),
               ],
@@ -659,59 +389,30 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: widget.onSubmit != null
-                        ? () {
-                            widget.onSubmit!(
-                              selectedDate,
-                              selectedDateInText,
-                            );
-                            Navigator.pop(context);
-                          }
-                        : null,
-                    style: widget.submitButtonStyle ??
-                        ElevatedButton.styleFrom(
-                          backgroundColor: widget.onPrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            /// elevated button border radius fix by main box
-                            /// border radius value
-                            borderRadius: BorderRadius.circular(
-                              widget.borderRadius * 0.6,
-                            ),
-                          ),
-                        ),
-                    child: Text(
-                      widget.submitTitle ?? 'انتخاب',
-                      style: widget.submitTextStyle ??
-                          TextStyle(
-                            color: widget.primaryColor,
-                          ),
-                    ),
-                  ),
+                ChooseButton(
+                  onPressed: widget.onSubmit != null
+                      ? () {
+                          widget.onSubmit!(
+                            selectedDate,
+                            selectedDateInText,
+                          );
+                          Navigator.pop(context);
+                        }
+                      : null,
+                  buttonStyle: widget.submitButtonStyle,
+                  borderRadius: widget.borderRadius,
+                  title: widget.submitTitle,
+                  textStyle: widget.submitTextStyle,
+                  primaryColor: widget.primaryColor,
+                  onPrimaryColor: widget.onPrimaryColor,
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: widget.cancelButtonStyle ??
-                      ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          /// text button border radius fix by main box border
-                          /// radius value
-                          borderRadius: BorderRadius.circular(
-                            widget.borderRadius * 0.6,
-                          ),
-                        ),
-                      ),
-                  child: Text(
-                    widget.cancelTitle ?? 'کنسل',
-                    style: widget.cancelTextStyle ??
-                        TextStyle(color: widget.primaryColor),
-                  ),
+                8.0.spaceX,
+                CancelButton(
+                  buttonStyle: widget.cancelButtonStyle,
+                  borderRadius: widget.borderRadius,
+                  title: widget.cancelTitle,
+                  textStyle: widget.cancelTextStyle,
+                  primaryColor: widget.primaryColor,
                 ),
               ],
             ),
