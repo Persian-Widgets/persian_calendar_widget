@@ -1,4 +1,5 @@
 ## 0.5.0
+* Optimize resizing dialog box width
 * Refactor date picker dialog boxes
 * Remove `todayTitleBannerTextStyle` argument
 * Implement week days
