@@ -46,7 +46,6 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
   final ButtonStyle? goButtonStyle;
   final TextStyle? goTextStyle;
   final bool showTodayBanner;
-  final TextStyle? todayTitleBannerTextStyle;
   final TextStyle? todayDateBannerTextStyle;
 
   const DatePickerDialogBoxWithoutDay({
@@ -80,7 +79,6 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
     required this.goTitle,
     required this.showTodayBanner,
     required this.todayDateBannerTextStyle,
-    required this.todayTitleBannerTextStyle,
     super.key,
   });
 
