@@ -1,3 +1,11 @@
+## 0.5.0
+* Optimize resizing dialog box width
+* Refactor date picker dialog boxes
+* Remove `todayTitleBannerTextStyle` argument
+* Implement week days
+* Update `README.md` file
+* Update screenshots
+
 ## 0.4.0
 * Implement go to button and today banner
 * Update example
