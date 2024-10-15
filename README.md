@@ -2,7 +2,7 @@
 
 A Flutter package that provides users access to pick a date using a Persian calendar.
 
-| <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_MINIMAL_PERSIAN_CALENDAR.jpg?raw=true" width='250' alt="Minimal persian calendar" /> | <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_CUSTOM_DECORATION_PERSIAN_CALENDAR.jpg?raw=true" width='250' alt="Minimal persian calendar" /> |
+| <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_MINIMAL_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> | <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_CUSTOM_DECORATION_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> |
 | :------: | :------: | 
 | **Minimal Calendar** | **Custom Decoration Calendar** |                                                      
 
@@ -30,6 +30,8 @@ ElevatedButton(
                 log('dateInText of pick full date: $dateInText');
                 log('jalaliDate of pick full date: $jalaliDate');
             },
+            showTodayBanner: true,
+            useGoToTodayButton: true,
         );
     },
     child: const Text('انتخاب روز ماه و سال')),
@@ -43,7 +45,7 @@ ElevatedButton(
     onPressed: () {
         /// open date picker widget
         /// user have access to pick day, month and year
-        MinimalPersianCalendar.pickFullDate(
+        CustomDecorationPersianCalendar.pickFullDate(
             context: context,
             onSubmit: (jalaliDate, dateInText) {
                 /// when user choose date from dialog box and submit two
@@ -116,6 +118,15 @@ ElevatedButton(
             titleSelectedTextStyle: const TextStyle(
                 color: Colors.white54,
             ),
+
+            /// change week days decoration
+            weekDaysBoxStyle: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                border:
+                    Border.all(color: Colors.cyan.shade500, width: 1.5),
+                color: Colors.cyan.shade600,
+            ),
+            weekDaysTextStyle: const TextStyle(color: Colors.white));
         );
     },
     child: const Text('انتخاب روز ماه و سال')),
@@ -154,8 +165,15 @@ Text(
 | `dateSelectedTextStyle` | Change text style of the selected date texts | TextStyle                                      | null     |
 | `submitTextStyle` | Change text style of the submit text        | TextStyle                                               | null     |
 | `submitTitle` | Change the title of the submit button        | String                                               | null     |
-| `cancelTextStyle` | Change text style of the cancel text         | TextStyle                                               | null     |
+| `cancelTextStyle` | Change text style of the cancel text         | TextStyle                                        | null     |
 | `cancelTitle` | Change the title of the cancel button        | String                                               | null     |
+| `showTodayBanner` | Show a banner to see current day date        | bool                                     | null     |
+| `todayDateBannerTextStyle` | Change text style of the today banner text         | TextStyle                        | null     |
+| `useGoToTodayButton` | Show go to today button        | bool                                     | null     |
+| `goTitle` | Change the title of the banner button title        | String                                    | null     |
+| `goTextStyle` | Change text style of the banner button title        | TextStyle                              | null     |
+| `weekDaysPadding` | Change the padding of the week days tiles         | EdgeInsetsGeometry                         | null     |
+| `weekDaysTextStyle` | Change text style of the week days tiles text         | TextStyle                              | null     |
 
 
 ### CustomDecorationPersianCalendar Parameters
@@ -186,6 +204,15 @@ Text(
 | `cancelButtonStyle` | Change the button style of the cancel buttons  | ButtonStyle                                                   | null     |
 | `cancelTextStyle` | Change text style of the cancel text         | TextStyle                                               | null     |
 | `cancelTitle` | Change the title of the cancel button        | String                                               | null     |
+| `showTodayBanner` | Show a banner to see current day date        | bool                                     | null     |
+| `todayDateBannerTextStyle` | Change text style of the today banner text         | TextStyle                        | null     |
+| `useGoToTodayButton` | Show go to today button        | bool                                     | null     |
+| `goTitle` | Change the title of the banner button title        | String                                    | null     |
+| `goTextStyle` | Change text style of the banner button title        | TextStyle                              | null     |
+| `goButtonStyle` | Change the button style of the go today buttons  | ButtonStyle                                                   | null     |
+| `weekDaysBoxStyle` | Change the decoration of the week days tiles        | BoxDecoration                         | null     |
+| `weekDaysPadding` | Change the padding of the week days tiles         | EdgeInsetsGeometry                         | null     |
+| `weekDaysTextStyle` | Change text style of the week days tiles text         | TextStyle                              | null     |
 
 ## Contributing
 
