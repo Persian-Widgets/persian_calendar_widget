@@ -15,9 +15,12 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  bloc: ^9.0.1
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
-  shamsi_date: ^1.0.4
+  flutter_bloc: ^9.1.1
+  shamsi_date: ^1.1.1
 
 dev_dependencies:
   flutter_test:
