@@ -127,6 +127,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     calendarType: CalendarType.gregorian,
                     i18n: I18n(
+                        buttons: I18nButtons(
+                          cancel: S.current.button_cancel,
+                          submit: S.current.button_submit,
+                        ),
+                        weekCodes: I18nWeekCodes(
+                          saturday: S.current.week_day_sat,
+                          sunday: S.current.week_day_sun,
+                          monday: S.current.week_day_mon,
+                          tuesday: S.current.week_day_tue,
+                          wednesday: S.current.week_day_wed,
+                          thursday: S.current.week_day_thu,
+                          friday: S.current.week_day_fri,
+                        ),
                         gregorianMonths: I18nGregorianMonths(
                           january: S.current.gregorian_month_january,
                           february: S.current.gregorian_month_february,
@@ -155,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           bahman: S.current.jalali_month_bahman,
                           esfand: S.current.jalali_month_esfand,
                         )),
+                    enablePersianDigits: false,
                     onSubmit: (chosenDate, dateInText) {
                       setState(() {
                         selectedDate = dateInText.gregorian;
@@ -167,12 +181,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     background: Colors.cyan.shade50,
 
                     /// change cancel button decoration
-                    cancelTitle: 'لغو',
                     cancelButtonStyle: TextButton.styleFrom(),
                     cancelTextStyle: TextStyle(color: Colors.cyan.shade700),
 
                     /// change submit button decoration
-                    submitTitle: 'ثبت',
                     submitButtonStyle: ElevatedButton.styleFrom(
                       elevation: 10,
                       shadowColor: Colors.cyan.shade400,

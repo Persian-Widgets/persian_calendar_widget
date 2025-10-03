@@ -54,6 +54,51 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Cancel`
+  String get button_cancel {
+    return Intl.message('Cancel', name: 'button_cancel', desc: '', args: []);
+  }
+
+  /// `Submit`
+  String get button_submit {
+    return Intl.message('Submit', name: 'button_submit', desc: '', args: []);
+  }
+
+  /// `sa`
+  String get week_day_sat {
+    return Intl.message('sa', name: 'week_day_sat', desc: '', args: []);
+  }
+
+  /// `su`
+  String get week_day_sun {
+    return Intl.message('su', name: 'week_day_sun', desc: '', args: []);
+  }
+
+  /// `mo`
+  String get week_day_mon {
+    return Intl.message('mo', name: 'week_day_mon', desc: '', args: []);
+  }
+
+  /// `tu`
+  String get week_day_tue {
+    return Intl.message('tu', name: 'week_day_tue', desc: '', args: []);
+  }
+
+  /// `we`
+  String get week_day_wed {
+    return Intl.message('we', name: 'week_day_wed', desc: '', args: []);
+  }
+
+  /// `th`
+  String get week_day_thu {
+    return Intl.message('th', name: 'week_day_thu', desc: '', args: []);
+  }
+
+  /// `fr`
+  String get week_day_fri {
+    return Intl.message('fr', name: 'week_day_fri', desc: '', args: []);
+  }
+
   /// `January`
   String get gregorian_month_january {
     return Intl.message(

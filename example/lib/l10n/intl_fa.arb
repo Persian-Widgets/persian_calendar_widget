@@ -1,6 +1,17 @@
 {
     "@@locale": "fa",
 
+    "button_cancel": "لغو",
+    "button_submit": "تایید",
+
+    "week_day_sat":"ش",
+    "week_day_sun":"یک",
+    "week_day_mon":"دو",
+    "week_day_tue":"سه",
+    "week_day_wed":"چهار",
+    "week_day_thu":"پنج",
+    "week_day_fri":"ج",
+
     "gregorian_month_january": "ژانویه",
     "gregorian_month_february": "فوریه",
     "gregorian_month_march": "مارس",

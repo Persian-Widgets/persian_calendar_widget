@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "button_cancel": MessageLookupByLibrary.simpleMessage("لغو"),
+    "button_submit": MessageLookupByLibrary.simpleMessage("تایید"),
     "gregorian_month_april": MessageLookupByLibrary.simpleMessage("آوریل"),
     "gregorian_month_august": MessageLookupByLibrary.simpleMessage("اوت"),
     "gregorian_month_december": MessageLookupByLibrary.simpleMessage("دسامبر"),
@@ -50,5 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "jalali_month_shahrivar": MessageLookupByLibrary.simpleMessage("شهریور"),
     "jalali_month_tir": MessageLookupByLibrary.simpleMessage("تیر"),
+    "week_day_fri": MessageLookupByLibrary.simpleMessage("ج"),
+    "week_day_mon": MessageLookupByLibrary.simpleMessage("دو"),
+    "week_day_sat": MessageLookupByLibrary.simpleMessage("ش"),
+    "week_day_sun": MessageLookupByLibrary.simpleMessage("یک"),
+    "week_day_thu": MessageLookupByLibrary.simpleMessage("پنج"),
+    "week_day_tue": MessageLookupByLibrary.simpleMessage("سه"),
+    "week_day_wed": MessageLookupByLibrary.simpleMessage("چهار"),
   };
 }

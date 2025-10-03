@@ -1,6 +1,17 @@
 {
     "@@locale": "en",
 
+    "button_cancel": "Cancel",
+    "button_submit": "Submit",
+
+    "week_day_sat":"sa",
+    "week_day_sun":"su",
+    "week_day_mon":"mo",
+    "week_day_tue":"tu",
+    "week_day_wed":"we",
+    "week_day_thu":"th",
+    "week_day_fri":"fr",
+
     "gregorian_month_january": "January",
     "gregorian_month_february": "February",
     "gregorian_month_march": "March",
