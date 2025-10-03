@@ -20,43 +20,48 @@ class WeekDaysList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      shrinkWrap: true,
-      padding: listPadding ??
-          const EdgeInsets.only(
-            right: 12,
-            left: 12,
-            top: 10,
-            // bottom: 5,
-          ),
-      crossAxisCount: 7,
-      physics: const NeverScrollableScrollPhysics(),
-      children: context.read<DatePickerBloc>().state.weekCodes.values.map(
-        (e) {
-          return Padding(
-            padding: tilesPadding ?? const EdgeInsets.all(3),
-            child: DecoratedBox(
-              decoration: boxDecoration ??
-                  BoxDecoration(
-                    // color: Theme.of(context).colorScheme.primary,
-                    border: Border.all(
-                      color: primaryColor ?? Theme.of(context).primaryColor,
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-              child: Center(
-                child: Text(
-                  e,
-                  style: textStyle ??
-                      TextStyle(
-                        color: primaryColor ?? Theme.of(context).primaryColor,
-                      ),
-                ).scaleDown,
+    return BlocBuilder<DatePickerBloc, DatePickerState>(
+      builder: (context, state) {
+        return GridView.count(
+          shrinkWrap: true,
+          padding: listPadding ??
+              const EdgeInsets.only(
+                right: 12,
+                left: 12,
+                top: 10,
+                // bottom: 5,
               ),
-            ),
-          );
-        },
-      ).toList(),
+          crossAxisCount: 7,
+          physics: const NeverScrollableScrollPhysics(),
+          children: state.weekCodes.values.map(
+            (e) {
+              return Padding(
+                padding: tilesPadding ?? const EdgeInsets.all(3),
+                child: DecoratedBox(
+                  decoration: boxDecoration ??
+                      BoxDecoration(
+                        // color: Theme.of(context).colorScheme.primary,
+                        border: Border.all(
+                          color: primaryColor ?? Theme.of(context).primaryColor,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                  child: Center(
+                    child: Text(
+                      e,
+                      style: textStyle ??
+                          TextStyle(
+                            color:
+                                primaryColor ?? Theme.of(context).primaryColor,
+                          ),
+                    ).scaleDown,
+                  ),
+                ),
+              );
+            },
+          ).toList(),
+        );
+      },
     );
   }
 }
