@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/extension/date_details.dart';
+import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 
 class MonthPageView extends StatefulWidget {
   final ButtonStyle? dateButtonStyle;
@@ -89,7 +90,7 @@ class _MonthPageViewState extends State<MonthPageView> {
                     : selectedMonths == currentMonth
                         ? widget.dateSelectedTextStyle ?? widget.dateTextStyle
                         : widget.dateTextStyle,
-              ),
+              ).scaleDown,
               onPressed: () =>
                   context.read<DatePickerBloc>().add(SelectMonth(currentMonth)),
             );
