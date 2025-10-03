@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension ToPersianDigit on String? {
   String toPersianDigit() {
     String? result = this;
@@ -18,5 +20,31 @@ extension ToPersianDigit on String? {
 
       return result;
     }
+  }
+}
+
+extension PersianTextExtension on Text {
+  Text withPersianDigits() {
+    final String? originalText = data;
+    final String convertedText = originalText?.toPersianDigit() ?? '';
+
+    return Text(
+      convertedText,
+      key: key,
+      style: style,
+      textAlign: textAlign,
+      textDirection: textDirection,
+      locale: locale,
+      maxLines: maxLines,
+      overflow: overflow,
+      semanticsLabel: semanticsLabel,
+      softWrap: softWrap,
+      strutStyle: strutStyle,
+      textHeightBehavior: textHeightBehavior,
+      textWidthBasis: textWidthBasis,
+      selectionColor: selectionColor,
+      semanticsIdentifier: semanticsIdentifier,
+      textScaler: textScaler,
+    );
   }
 }
