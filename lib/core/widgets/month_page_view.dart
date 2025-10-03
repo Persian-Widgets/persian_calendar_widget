@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/extension/date_details.dart';
 import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 

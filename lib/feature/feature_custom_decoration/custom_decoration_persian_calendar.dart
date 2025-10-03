@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
+import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
+import 'package:persian_calendar_widget/core/data/enums/pick_date_format.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box_without_day.dart';
 import 'package:shamsi_date/shamsi_date.dart';

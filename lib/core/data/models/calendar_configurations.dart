@@ -1,4 +1,5 @@
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
+import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class CalendarConfigurations {

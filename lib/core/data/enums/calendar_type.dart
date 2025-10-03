@@ -1,0 +1,4 @@
+enum CalendarType {
+  persian,
+  gregorian,
+}

@@ -1,4 +1,4 @@
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 
 class AppConstants {
   AppConstants._();

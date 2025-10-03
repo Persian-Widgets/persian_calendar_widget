@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
