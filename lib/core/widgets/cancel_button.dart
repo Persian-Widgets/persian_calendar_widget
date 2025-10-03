@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 
 class CancelButton extends StatelessWidget {
@@ -7,12 +8,14 @@ class CancelButton extends StatelessWidget {
   final String? title;
   final TextStyle? textStyle;
   final Color? primaryColor;
+  final I18n i18n;
   const CancelButton({
     required this.buttonStyle,
     required this.borderRadius,
     required this.title,
     required this.textStyle,
     required this.primaryColor,
+    required this.i18n,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +39,7 @@ class CancelButton extends StatelessWidget {
               ),
             ),
         child: Text(
-          title ?? 'کنسل',
+          title ?? i18n.buttons.cancel,
           style: textStyle ?? TextStyle(color: primaryColor),
         ).scaleDown,
       ),

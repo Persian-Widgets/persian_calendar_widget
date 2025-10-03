@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/data/models/calendar_configurations.dart';
 import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
 import 'package:persian_calendar_widget/core/extension/parse_calendar_to_all_types.dart';
@@ -52,6 +53,7 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
   final bool showTodayBanner;
   final TextStyle? todayDateBannerTextStyle;
   final FirstDayOfWeek? firstDayOfWeek;
+  final I18n? i18n;
 
   const DatePickerDialogBoxWithoutDay({
     required this.initialDate,
@@ -85,6 +87,7 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
     required this.showTodayBanner,
     required this.todayDateBannerTextStyle,
     required this.firstDayOfWeek,
+    required this.i18n,
     super.key,
   });
 
@@ -99,6 +102,7 @@ class _DatePickerDialogBoxWithoutDayState
   late PageController _pageController;
   late DateTime selectedDate;
   late int currentPageViewIndex;
+  late I18n i18n;
 
   @override
   void initState() {
@@ -112,6 +116,7 @@ class _DatePickerDialogBoxWithoutDayState
       firstDayOfWeek: widget.firstDayOfWeek,
     );
     selectedDate = widget.initialDate ?? DateTime.now();
+    i18n = widget.i18n ?? const I18n();
 
     currentPageViewIndex = PageViewIndex.month;
     _pageController = PageController(initialPage: currentPageViewIndex);
@@ -131,6 +136,7 @@ class _DatePickerDialogBoxWithoutDayState
           InitDatePicker(
             calendarConfigurations: calendarConfigurations,
             selectedDate: selectedDate,
+            i18n: i18n,
           ),
         ),
       child: Builder(
@@ -188,6 +194,8 @@ class _DatePickerDialogBoxWithoutDayState
                                 widget.titleSelectedButtonStyle,
                             title: selectedDate.fromatTo_MMMM(
                               widget.calendarType,
+                              state.jalaliMonths,
+                              state.gregorianMonths,
                             ),
                             isSelected:
                                 currentPageViewIndex == PageViewIndex.month,
@@ -241,6 +249,7 @@ class _DatePickerDialogBoxWithoutDayState
                     title: widget.goTitle,
                     goTextStyle: widget.goTextStyle,
                     todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
+                    i18n: i18n,
                   ),
                 ],
 
@@ -280,13 +289,20 @@ class _DatePickerDialogBoxWithoutDayState
                       ChooseButton(
                         onPressed: widget.onSubmit != null
                             ? () {
+                                final state =
+                                    context.read<DatePickerBloc>().state;
+
                                 widget.onSubmit!(
                                   selectedDate.parseToAllCalendars,
-                                  selectedDate.formatTo_dd_MMMM_yyyy(),
+                                  selectedDate.formatTo_dd_MMMM_yyyy(
+                                    state.jalaliMonths,
+                                    state.gregorianMonths,
+                                  ),
                                 );
                                 Navigator.pop(context);
                               }
                             : null,
+                        i18n: i18n,
                         buttonStyle: widget.submitButtonStyle,
                         borderRadius: widget.borderRadius,
                         title: widget.submitTitle,
@@ -296,6 +312,7 @@ class _DatePickerDialogBoxWithoutDayState
                       ),
                       8.0.spaceX,
                       CancelButton(
+                        i18n: i18n,
                         buttonStyle: widget.cancelButtonStyle,
                         borderRadius: widget.borderRadius,
                         title: widget.cancelTitle,

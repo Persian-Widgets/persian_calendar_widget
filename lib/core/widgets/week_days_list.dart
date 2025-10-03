@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
-import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
-import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 
 class WeekDaysList extends StatelessWidget {
   final BoxDecoration? boxDecoration;
@@ -22,12 +20,6 @@ class WeekDaysList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirstDayOfWeek firstDayOfWeek = context
-        .read<DatePickerBloc>()
-        .state
-        .calendarConfigurations
-        .firstDayOfWeek;
-
     return GridView.count(
       shrinkWrap: true,
       padding: listPadding ??
@@ -39,7 +31,7 @@ class WeekDaysList extends StatelessWidget {
           ),
       crossAxisCount: 7,
       physics: const NeverScrollableScrollPhysics(),
-      children: AppConstants.customWeekCodes(firstDayOfWeek).values.map(
+      children: context.read<DatePickerBloc>().state.weekCodes.values.map(
         (e) {
           return Padding(
             padding: tilesPadding ?? const EdgeInsets.all(3),

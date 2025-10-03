@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/extension/date_details.dart';
-import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 
 class MonthPageView extends StatefulWidget {
   final ButtonStyle? dateButtonStyle;
@@ -34,6 +33,16 @@ class _MonthPageViewState extends State<MonthPageView> {
         final CalendarType calendarType =
             state.calendarConfigurations.calendarType;
         final int selectedMonths = state.selectedDate.fetchMonth(calendarType);
+        final jalaliMonths = state.jalaliMonths;
+        final gregorianMonths = state.gregorianMonths;
+
+        if (jalaliMonths.isEmpty && calendarType == CalendarType.persian) {
+          return const CircularProgressIndicator();
+        }
+
+        if (gregorianMonths.isEmpty && calendarType == CalendarType.gregorian) {
+          return const CircularProgressIndicator();
+        }
 
         return GridView.builder(
           padding: const EdgeInsets.only(
@@ -69,8 +78,8 @@ class _MonthPageViewState extends State<MonthPageView> {
                       : widget.dateButtonStyle,
               child: Text(
                 calendarType == CalendarType.persian
-                    ? AppConstants.jalaliMonths[currentMonth]!
-                    : AppConstants.gregorianMonths[currentMonth]!,
+                    ? jalaliMonths[currentMonth]!
+                    : gregorianMonths[currentMonth]!,
                 style: widget.dateTextStyle == null
                     ? TextStyle(
                         color: selectedMonths == currentMonth

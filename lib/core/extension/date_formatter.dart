@@ -1,43 +1,53 @@
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
-import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 extension DateFormatter on DateTime {
-  ({String jalali, String gregorian}) formatTo_dd_MMMM_yyyy() {
+  ({String jalali, String gregorian}) formatTo_dd_MMMM_yyyy(
+    Map<int, String> jalaliMonths,
+    Map<int, String> gregorianMonths,
+  ) {
     final jalaliDate = toJalali();
     final gregorianDate = toGregorian();
 
     return (
       jalali:
-          '${jalaliDate.day} ${AppConstants.jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
+          '${jalaliDate.day} ${jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
       gregorian:
-          '${gregorianDate.day} ${AppConstants.gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
+          '${gregorianDate.day} ${gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
     );
   }
 
-  ({String jalali, String gregorian}) formatTo_wN_dd_MMMM_yyyy() {
+  ({String jalali, String gregorian}) formatTo_wN_dd_MMMM_yyyy(
+    Map<int, String> jalaliMonths,
+    Map<int, String> gregorianMonths,
+    Map<int, String> weekNames,
+  ) {
     final jalaliDate = toJalali();
     final gregorianDate = toGregorian();
 
     return (
       jalali:
-          '${AppConstants.weekNames[weekday]} ${jalaliDate.day} ${AppConstants.jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
+          '${weekNames[weekday]} ${jalaliDate.day} ${jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
       gregorian:
-          '${AppConstants.weekNames[weekday]} ${gregorianDate.day} ${AppConstants.gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
+          '${weekNames[weekday]} ${gregorianDate.day} ${gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
     );
   }
 
-  ({String jalali, String gregorian}) formatTo_wC_dd_MMMM_yyyy() {
+  ({String jalali, String gregorian}) formatTo_wC_dd_MMMM_yyyy(
+    Map<int, String> jalaliMonths,
+    Map<int, String> gregorianMonths,
+    Map<int, String> defaultWeekCodes,
+  ) {
     final jalaliDate = toJalali();
     final gregorianDate = toGregorian();
 
     return (
       jalali:
-          '${AppConstants.weekCodes[weekday]} ${jalaliDate.day} ${AppConstants.jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
+          '${defaultWeekCodes[weekday]} ${jalaliDate.day} ${jalaliMonths[jalaliDate.month]} ${jalaliDate.year}',
       gregorian:
-          '${AppConstants.weekCodes[weekday]} ${gregorianDate.day} ${AppConstants.gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
+          '${defaultWeekCodes[weekday]} ${gregorianDate.day} ${gregorianMonths[gregorianDate.month]} ${gregorianDate.year}'
     );
   }
 
@@ -65,9 +75,13 @@ extension DateFormatter on DateTime {
     return gFormattedDate.yyyy;
   }
 
-  String fromatTo_MMMM(CalendarType calendarType) {
+  String fromatTo_MMMM(
+    CalendarType calendarType,
+    Map<int, String> jalaliMonths,
+    Map<int, String> gregorianMonths,
+  ) {
     return calendarType == CalendarType.persian
-        ? AppConstants.jalaliMonths[toJalali().month] ?? ''
-        : AppConstants.gregorianMonths[month] ?? '';
+        ? jalaliMonths[toJalali().month] ?? ''
+        : gregorianMonths[month] ?? '';
   }
 }

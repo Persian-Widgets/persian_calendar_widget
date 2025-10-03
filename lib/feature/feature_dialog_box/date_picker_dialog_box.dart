@@ -4,6 +4,7 @@ import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_b
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 import 'package:persian_calendar_widget/core/data/enums/pick_date_format.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/data/models/calendar_configurations.dart';
 import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
 import 'package:persian_calendar_widget/core/extension/parse_calendar_to_all_types.dart';
@@ -59,6 +60,7 @@ class DatePickerDialogBox extends StatefulWidget {
   final bool showTodayBanner;
   final TextStyle? todayDateBannerTextStyle;
   final FirstDayOfWeek? firstDayOfWeek;
+  final I18n? i18n;
 
   const DatePickerDialogBox({
     required this.initialDate,
@@ -96,6 +98,7 @@ class DatePickerDialogBox extends StatefulWidget {
     required this.weekDaysPadding,
     required this.weekDaysTextStyle,
     required this.firstDayOfWeek,
+    required this.i18n,
     super.key,
   });
 
@@ -108,6 +111,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
   late PageController _pageController;
   late DateTime selectedDate;
   late int currentPageViewIndex;
+  late I18n i18n;
 
   @override
   void initState() {
@@ -121,6 +125,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
       firstDayOfWeek: widget.firstDayOfWeek,
     );
     selectedDate = widget.initialDate ?? DateTime.now();
+    i18n = widget.i18n ?? const I18n();
 
     /// if we need to pick just month, must set default value of the page view
     /// screen `PageViewIndex.month` otherwise use `PageViewIndex.day`
@@ -144,6 +149,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
           InitDatePicker(
             calendarConfigurations: calendarConfigurations,
             selectedDate: selectedDate,
+            i18n: i18n,
           ),
         ),
       child: Builder(
@@ -234,6 +240,8 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                 widget.titleSelectedButtonStyle,
                             title: selectedDate.fromatTo_MMMM(
                               widget.calendarType,
+                              state.jalaliMonths,
+                              state.gregorianMonths,
                             ),
                             isSelected:
                                 currentPageViewIndex == PageViewIndex.month,
@@ -290,6 +298,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                     title: widget.goTitle,
                     goTextStyle: widget.goTextStyle,
                     todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
+                    i18n: i18n,
                   ),
                 ],
 
@@ -346,13 +355,20 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                       ChooseButton(
                         onPressed: widget.onSubmit != null
                             ? () {
+                                final state =
+                                    context.read<DatePickerBloc>().state;
+
                                 widget.onSubmit!(
                                   selectedDate.parseToAllCalendars,
-                                  selectedDate.formatTo_dd_MMMM_yyyy(),
+                                  selectedDate.formatTo_dd_MMMM_yyyy(
+                                    state.jalaliMonths,
+                                    state.gregorianMonths,
+                                  ),
                                 );
                                 Navigator.pop(context);
                               }
                             : null,
+                        i18n: i18n,
                         buttonStyle: widget.submitButtonStyle,
                         borderRadius: widget.borderRadius,
                         title: widget.submitTitle,
@@ -362,6 +378,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                       ),
                       8.0.spaceX,
                       CancelButton(
+                        i18n: i18n,
                         buttonStyle: widget.cancelButtonStyle,
                         borderRadius: widget.borderRadius,
                         title: widget.cancelTitle,

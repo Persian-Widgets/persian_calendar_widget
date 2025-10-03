@@ -9,10 +9,12 @@ sealed class DatePickerEvent extends Equatable {
 
 class InitDatePicker extends DatePickerEvent {
   final CalendarConfigurations calendarConfigurations;
+  final I18n i18n;
   final DateTime selectedDate;
 
   const InitDatePicker({
     required this.calendarConfigurations,
+    required this.i18n,
     required this.selectedDate,
   });
 }

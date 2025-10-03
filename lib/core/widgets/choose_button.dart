@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 
 class ChooseButton extends StatelessWidget {
@@ -9,6 +10,7 @@ class ChooseButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? primaryColor;
   final Color? onPrimaryColor;
+  final I18n i18n;
   const ChooseButton({
     required this.onPressed,
     required this.buttonStyle,
@@ -17,6 +19,7 @@ class ChooseButton extends StatelessWidget {
     required this.textStyle,
     required this.primaryColor,
     required this.onPrimaryColor,
+    required this.i18n,
     Key? key,
   }) : super(key: key);
 
@@ -40,7 +43,7 @@ class ChooseButton extends StatelessWidget {
               ),
             ),
         child: Text(
-          title ?? 'انتخاب',
+          title ?? i18n.buttons.submit,
           style: textStyle ??
               TextStyle(
                 color: primaryColor,

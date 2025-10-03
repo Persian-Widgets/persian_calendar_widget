@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
@@ -16,6 +17,7 @@ class TodayContext extends StatelessWidget {
   final String? title;
   final TextStyle? goTextStyle;
   final TextStyle? todayDateBannerTextStyle;
+  final I18n i18n;
   const TodayContext({
     required this.useGoToTodayButton,
     required this.showTodayBanner,
@@ -26,17 +28,29 @@ class TodayContext extends StatelessWidget {
     required this.title,
     required this.goTextStyle,
     required this.todayDateBannerTextStyle,
+    required this.i18n,
     super.key,
   });
 
+  String formattedDate(DatePickerState state) {
+    final CalendarType calendarType = state.calendarConfigurations.calendarType;
+    final jalaliMonths = state.jalaliMonths;
+    final gregorianMonths = state.gregorianMonths;
+    final weekNames = state.weekNames;
+
+    final formattedDate = DateTime.now().formatTo_wN_dd_MMMM_yyyy(
+      jalaliMonths,
+      gregorianMonths,
+      weekNames,
+    );
+
+    return calendarType == CalendarType.persian
+        ? formattedDate.jalali
+        : formattedDate.gregorian;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final CalendarType calendarType = context
-        .read<DatePickerBloc>()
-        .state
-        .calendarConfigurations
-        .calendarType;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
@@ -75,7 +89,10 @@ class TodayContext extends StatelessWidget {
                         ),
                       ),
                   child: Text(
-                    title ?? (showTodayBanner ? 'برو به' : 'برو به امروز'),
+                    title ??
+                        (showTodayBanner
+                            ? i18n.buttons.goTo
+                            : i18n.buttons.today),
                     style: goTextStyle ??
                         TextStyle(
                           color: primaryColor,
@@ -115,16 +132,19 @@ class TodayContext extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: Text(
-                    calendarType == CalendarType.persian
-                        ? DateTime.now().formatTo_wN_dd_MMMM_yyyy().jalali
-                        : DateTime.now().formatTo_wN_dd_MMMM_yyyy().gregorian,
-                    style: todayDateBannerTextStyle ??
-                        TextStyle(
-                          color: primaryColor ?? Theme.of(context).primaryColor,
-                        ),
-                    textAlign: TextAlign.center,
-                  ).scaleDown,
+                  child: BlocBuilder<DatePickerBloc, DatePickerState>(
+                    builder: (context, state) {
+                      return Text(
+                        formattedDate(state),
+                        style: todayDateBannerTextStyle ??
+                            TextStyle(
+                              color: primaryColor ??
+                                  Theme.of(context).primaryColor,
+                            ),
+                        textAlign: TextAlign.center,
+                      ).scaleDown;
+                    },
+                  ),
                 ),
               ),
             ),

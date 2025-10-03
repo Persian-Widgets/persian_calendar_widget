@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 import 'package:persian_calendar_widget/core/data/enums/pick_date_format.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box_without_day.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -46,6 +47,7 @@ class CustomDecorationPersianCalendar {
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
   }) {
     showDialog(
       context: context,
@@ -86,6 +88,7 @@ class CustomDecorationPersianCalendar {
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
         );
       },
     );
@@ -125,6 +128,7 @@ class CustomDecorationPersianCalendar {
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
   }) {
     showDialog(
       context: context,
@@ -165,6 +169,7 @@ class CustomDecorationPersianCalendar {
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
         );
       },
     );
@@ -206,6 +211,7 @@ class CustomDecorationPersianCalendar {
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
   }) {
     showDialog(
       context: context,
@@ -246,6 +252,7 @@ class CustomDecorationPersianCalendar {
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
         );
       },
     );
@@ -283,6 +290,7 @@ class CustomDecorationPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     ButtonStyle? goButtonStyle,
+    I18n? i18n,
   }) {
     showDialog(
       context: context,
@@ -319,6 +327,7 @@ class CustomDecorationPersianCalendar {
           goButtonStyle: goButtonStyle,
           goTextStyle: goTextStyle,
           firstDayOfWeek: null,
+          i18n: i18n,
         );
       },
     );
