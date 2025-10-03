@@ -1,53 +1,76 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
+import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/extension/date_details.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
-import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
-import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-class DayPageView extends StatelessWidget {
-  final Jalali selectedDate;
-  final int selectedMonths;
-  final int selectedYear;
-  final int selectedDay;
+class DayPageView extends StatefulWidget {
   final ButtonStyle? dateButtonStyle;
   final ButtonStyle? dateSelectedButtonStyle;
   final Color? primaryColor;
   final Color? onPrimaryColor;
-  final bool isPersian;
-  final Function(int currentDay) onPressed;
   final Widget child;
   final TextStyle? dateSelectedTextStyle;
   final TextStyle? dateTextStyle;
 
   const DayPageView({
-    required this.selectedDate,
-    required this.selectedMonths,
-    required this.selectedYear,
-    required this.selectedDay,
     required this.dateButtonStyle,
     required this.onPrimaryColor,
     required this.primaryColor,
     required this.dateSelectedButtonStyle,
-    required this.isPersian,
-    required this.onPressed,
     required this.child,
     required this.dateSelectedTextStyle,
     required this.dateTextStyle,
     Key? key,
   }) : super(key: key);
 
-  (int, int) getSelectedDateLength() {
-    int monthLength = selectedDate.monthLength;
-    final Jalali thisMonthInfo = Jalali(selectedYear, selectedMonths);
-    final String weekNameOfFirstDay =
-        thisMonthInfo.formatter.wN.substring(0, 1);
-    final int weekDayNumber = AppConstants.weekMap.entries
-        .firstWhere(
-          (element) => element.value == weekNameOfFirstDay,
-        )
-        .key;
-    monthLength = monthLength + weekDayNumber - 1;
-    return (monthLength, weekDayNumber);
+  @override
+  State<DayPageView> createState() => _DayPageViewState();
+}
+
+class _DayPageViewState extends State<DayPageView> {
+  /// check the month length
+  /// check the first day of the month's weekday
+  /// first day in our calculation is Monday = 1
+  /// add the weekday - 1 to the total month length
+  /// then we can have a full weeks in our month view
+
+  late int monthLength;
+
+  int get weekdayNumber {
+    final CalendarType calendarType = context
+        .read<DatePickerBloc>()
+        .state
+        .calendarConfigurations
+        .calendarType;
+
+    final DateTime selectedDate =
+        context.watch<DatePickerBloc>().state.selectedDate;
+
+    if (calendarType == CalendarType.persian) {
+      final jDate = selectedDate.toJalali();
+      final date = Jalali(jDate.year, jDate.month);
+      return date.toDateTime().weekday;
+    }
+
+    return DateTime(selectedDate.year, selectedDate.month).weekday;
+  }
+
+  void _calculateMonthLength(
+    CalendarType calendarType,
+    DateTime selectedDate,
+    FirstDayOfWeek firstDay,
+  ) {
+    final int baseMonthLength = calendarType == CalendarType.gregorian
+        ? selectedDate.toGregorian().monthLength
+        : selectedDate.toJalali().monthLength;
+
+    monthLength =
+        baseMonthLength + weekdayNumber - firstDay.minesFromMonthLength;
   }
 
   @override
@@ -56,55 +79,77 @@ class DayPageView extends StatelessWidget {
       children: [
         Positioned.fill(
           top: 51,
-          child: GridView.builder(
-            padding: const EdgeInsets.only(
-              right: 12,
-              left: 12,
-              top: 3,
-              bottom: 5,
-            ),
-            shrinkWrap: true,
-            // physics: const BouncingScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-            ),
-            itemCount: getSelectedDateLength().$1,
-            itemBuilder: (context, index) {
-              final int currentDay = index + 2 - getSelectedDateLength().$2;
+          child: BlocBuilder<DatePickerBloc, DatePickerState>(
+            builder: (context, state) {
+              final CalendarType calendarType =
+                  state.calendarConfigurations.calendarType;
+              final FirstDayOfWeek firstDayOfWeek =
+                  state.calendarConfigurations.firstDayOfWeek;
+              final int selectedDay = state.selectedDate.fetchDay(calendarType);
 
-              if (currentDay < 1) {
-                return const SizedBox.shrink();
-              }
+              _calculateMonthLength(
+                calendarType,
+                state.selectedDate,
+                firstDayOfWeek,
+              );
 
-              return TextButton(
-                style: dateButtonStyle == null
-                    ? TextButton.styleFrom(
-                        backgroundColor: selectedDay == currentDay
-                            ? primaryColor ?? Theme.of(context).primaryColor
-                            : Colors.transparent,
-                        padding: EdgeInsets.zero,
-                      )
-                    : selectedDay == currentDay
-                        ? dateSelectedButtonStyle ?? dateButtonStyle
-                        : dateButtonStyle,
-                child: Text(
-                  isPersian ? '$currentDay'.toPersianDigit() : '$currentDay',
-                  style: dateTextStyle == null
-                      ? TextStyle(
-                          color: selectedDay == currentDay
-                              ? onPrimaryColor ?? Colors.white
-                              : primaryColor,
-                        )
-                      : selectedDay == currentDay
-                          ? dateSelectedTextStyle ?? dateTextStyle
-                          : dateTextStyle,
-                ).scaleDown,
-                onPressed: () => onPressed(currentDay),
+              return GridView.builder(
+                padding: const EdgeInsets.only(
+                  right: 12,
+                  left: 12,
+                  top: 3,
+                  bottom: 5,
+                ),
+                shrinkWrap: true,
+                // physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                ),
+                itemCount: monthLength,
+                itemBuilder: (context, index) {
+                  final int currentDay =
+                      index - weekdayNumber + firstDayOfWeek.addToCurrentDay;
+
+                  if (currentDay < 1) {
+                    return const SizedBox.shrink();
+                  }
+
+                  return TextButton(
+                    style: widget.dateButtonStyle == null
+                        ? TextButton.styleFrom(
+                            backgroundColor: selectedDay == currentDay
+                                ? widget.primaryColor ??
+                                    Theme.of(context).primaryColor
+                                : Colors.transparent,
+                            padding: EdgeInsets.zero,
+                          )
+                        : selectedDay == currentDay
+                            ? widget.dateSelectedButtonStyle ??
+                                widget.dateButtonStyle
+                            : widget.dateButtonStyle,
+                    child: Text(
+                      '$currentDay',
+                      style: widget.dateTextStyle == null
+                          ? TextStyle(
+                              color: selectedDay == currentDay
+                                  ? widget.onPrimaryColor ?? Colors.white
+                                  : widget.primaryColor,
+                            )
+                          : selectedDay == currentDay
+                              ? widget.dateSelectedTextStyle ??
+                                  widget.dateTextStyle
+                              : widget.dateTextStyle,
+                    ).scaleDown,
+                    onPressed: () => context
+                        .read<DatePickerBloc>()
+                        .add(SelectDay(currentDay)),
+                  );
+                },
               );
             },
           ),
         ),
-        child,
+        widget.child,
       ],
     );
   }

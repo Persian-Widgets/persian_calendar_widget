@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
+import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
-import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 class TodayContext extends StatelessWidget {
   final bool useGoToTodayButton;
   final bool showTodayBanner;
-  final bool isPersian;
-  final Function(Jalali today) onPressed;
   final ButtonStyle? buttonStyle;
   final Color? onPrimaryColor;
   final Color? primaryColor;
@@ -19,12 +19,10 @@ class TodayContext extends StatelessWidget {
   const TodayContext({
     required this.useGoToTodayButton,
     required this.showTodayBanner,
-    required this.onPressed,
     required this.buttonStyle,
     required this.onPrimaryColor,
     required this.primaryColor,
     required this.borderRadius,
-    required this.isPersian,
     required this.title,
     required this.goTextStyle,
     required this.todayDateBannerTextStyle,
@@ -33,7 +31,11 @@ class TodayContext extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Jalali today = DateTime.now().toJalali();
+    final CalendarType calendarType = context
+        .read<DatePickerBloc>()
+        .state
+        .calendarConfigurations
+        .calendarType;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -46,7 +48,8 @@ class TodayContext extends StatelessWidget {
               child: SizedBox(
                 height: 27,
                 child: ElevatedButton(
-                  onPressed: () => onPressed(today),
+                  onPressed: () =>
+                      context.read<DatePickerBloc>().add(const SelectToday()),
                   style: buttonStyle ??
                       ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -113,13 +116,9 @@ class TodayContext extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
                   child: Text(
-                    isPersian
-                        ?
-                        // ignore: lines_longer_than_80_chars
-                        ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}'
-                            .toPersianDigit()
-                        // ignore: lines_longer_than_80_chars
-                        : ' ${today.formatter.wN} ${today.day} ${today.formatter.mN} ${today.year}',
+                    calendarType == CalendarType.persian
+                        ? DateTime.now().formatTo_wN_dd_MMMM_yyyy().jalali
+                        : DateTime.now().formatTo_wN_dd_MMMM_yyyy().gregorian,
                     style: todayDateBannerTextStyle ??
                         TextStyle(
                           color: primaryColor ?? Theme.of(context).primaryColor,

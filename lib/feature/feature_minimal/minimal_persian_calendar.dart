@@ -7,6 +7,7 @@ class MinimalPersianCalendar {
   static void pickDay({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     double? borderRadius,
     Color? primaryColor,
@@ -27,6 +28,7 @@ class MinimalPersianCalendar {
     TextStyle? goTextStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
   }) {
     showDialog(
       context: context,
@@ -56,7 +58,7 @@ class MinimalPersianCalendar {
           titleSelectedButtonStyle: null,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -66,6 +68,7 @@ class MinimalPersianCalendar {
           weekDaysBoxStyle: null,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
         );
       },
     );
@@ -74,6 +77,7 @@ class MinimalPersianCalendar {
   static void pickMonthAndDay({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     double? borderRadius,
     Color? primaryColor,
@@ -94,6 +98,7 @@ class MinimalPersianCalendar {
     TextStyle? goTextStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
   }) {
     showDialog(
       context: context,
@@ -123,7 +128,7 @@ class MinimalPersianCalendar {
           titleSelectedButtonStyle: null,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -133,6 +138,7 @@ class MinimalPersianCalendar {
           weekDaysBoxStyle: null,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
         );
       },
     );
@@ -141,6 +147,7 @@ class MinimalPersianCalendar {
   static void pickFullDate({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     int? maxYear,
     int? minYear,
@@ -163,6 +170,7 @@ class MinimalPersianCalendar {
     TextStyle? goTextStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
   }) {
     showDialog(
       context: context,
@@ -192,7 +200,7 @@ class MinimalPersianCalendar {
           titleSelectedButtonStyle: null,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -202,6 +210,7 @@ class MinimalPersianCalendar {
           weekDaysBoxStyle: null,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
         );
       },
     );
@@ -210,6 +219,7 @@ class MinimalPersianCalendar {
   static void pickYearAndMonth({
     required BuildContext context,
     required OnPickDateWithoutDay? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     int? maxYear,
     int? minYear,
@@ -258,13 +268,14 @@ class MinimalPersianCalendar {
           titleSelectedButtonStyle: null,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
           goTitle: goTitle,
           goButtonStyle: null,
           goTextStyle: goTextStyle,
+          firstDayOfWeek: null,
         );
       },
     );

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
+import 'package:persian_calendar_widget/core/data/models/calendar_configurations.dart';
 import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
+import 'package:persian_calendar_widget/core/extension/parse_calendar_to_all_types.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
-import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
-import 'package:persian_calendar_widget/core/utils/constants/app_constants.dart';
 import 'package:persian_calendar_widget/core/widgets/cancel_button.dart';
 import 'package:persian_calendar_widget/core/widgets/choose_button.dart';
 import 'package:persian_calendar_widget/core/widgets/day_page_view.dart';
@@ -13,7 +16,10 @@ import 'package:persian_calendar_widget/core/widgets/week_days_list.dart';
 import 'package:persian_calendar_widget/core/widgets/year_page_view.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-typedef OnPickDate = void Function(Jalali jalaliDate, String dateInText);
+typedef OnPickDate = void Function(
+  ({Jalali jalali, Gregorian gregorian}) selectedDate,
+  ({String jalali, String gregorian}) formattedDate,
+);
 
 class DatePickerDialogBox extends StatefulWidget {
   final DateTime? initialDate;
@@ -50,6 +56,7 @@ class DatePickerDialogBox extends StatefulWidget {
   final TextStyle? goTextStyle;
   final bool showTodayBanner;
   final TextStyle? todayDateBannerTextStyle;
+  final FirstDayOfWeek? firstDayOfWeek;
 
   const DatePickerDialogBox({
     required this.initialDate,
@@ -86,6 +93,7 @@ class DatePickerDialogBox extends StatefulWidget {
     required this.weekDaysBoxStyle,
     required this.weekDaysPadding,
     required this.weekDaysTextStyle,
+    required this.firstDayOfWeek,
     super.key,
   });
 
@@ -94,35 +102,23 @@ class DatePickerDialogBox extends StatefulWidget {
 }
 
 class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
+  late CalendarConfigurations calendarConfigurations;
   late PageController _pageController;
-  late Jalali selectedDate;
-  late String selectedDateInText;
-  late JalaliFormatter formattedDate;
-
-  late int maxYear;
-  late int minYear;
-  late List<int> yearsList;
-
-  // late int selectedValue;
+  late DateTime selectedDate;
   late int currentPageViewIndex;
-
-  late int selectedDay;
-  late int selectedMonths;
-  late int selectedYear;
 
   @override
   void initState() {
     super.initState();
 
-    final Jalali initialDate =
-        Jalali.fromDateTime(widget.initialDate ?? DateTime.now());
-
-    _updateSelectedDate(initialDate);
-
-    maxYear = widget.maxYear ?? initialDate.year + 11;
-    minYear = widget.minYear ?? initialDate.year;
-    yearsList =
-        List.generate(maxYear - minYear + 1, (index) => minYear + index);
+    calendarConfigurations = CalendarConfigurations(
+      calendarType: widget.calendarType,
+      maxYear: widget.maxYear,
+      minYear: widget.minYear,
+      initDate: widget.initialDate,
+      firstDayOfWeek: widget.firstDayOfWeek,
+    );
+    selectedDate = widget.initialDate ?? DateTime.now();
 
     /// if we need to pick just month, must set default value of the page view
     /// screen `PageViewIndex.month` otherwise use `PageViewIndex.day`
@@ -140,282 +136,243 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: SimpleDialog(
-        shape: RoundedRectangleBorder(
-          /// border radius of the main box
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-        ),
-        backgroundColor: widget.background,
-        children: [
-          /// title box decoration
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            margin: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: widget.titleBoxStyle ??
-                BoxDecoration(
-                  color: widget.primaryColor ?? Theme.of(context).primaryColor,
-
-                  /// title border radius fix by main box border radius value
-                  borderRadius:
-                      widget.showTodayBanner || widget.useGoToTodayButton
-                          ? BorderRadius.vertical(
-                              top: Radius.circular(widget.borderRadius * .6),
-                              bottom: const Radius.circular(5),
-                            )
-                          : BorderRadius.circular(widget.borderRadius * 0.6),
-                ),
-
-            /// title as date info
-            child: Row(
-              children: [
-                12.0.spaceX,
-
-                /// day button
-                TypeDataButton(
-                  onPressed: _daysButtonStatus()
-                      ? () {
-                          _pageController.animateToPage(
-                            PageViewIndex.day,
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInToLinear,
-                          );
-                          setState(() {
-                            currentPageViewIndex = PageViewIndex.day;
-                          });
-                        }
-                      : null,
-                  buttonStyle: widget.titleButtonStyle,
-                  selectedButtonStyle: widget.titleSelectedButtonStyle,
-                  title: widget.calendarType == CalendarType.persian
-                      ? formattedDate.d.toPersianDigit()
-                      : formattedDate.d,
-                  isSelected: currentPageViewIndex == PageViewIndex.day,
-                  textStyle: widget.titleTextStyle,
-                  selectedTextStyle: widget.titleSelectedTextStyle,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  primaryColor: widget.primaryColor,
-                ),
-                5.0.spaceX,
-
-                /// month button
-                TypeDataButton(
-                  onPressed: _monthsButtonStatus()
-                      ? () {
-                          _pageController.animateToPage(
-                            PageViewIndex.month,
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInToLinear,
-                          );
-                          setState(() {
-                            currentPageViewIndex = PageViewIndex.month;
-                          });
-                        }
-                      : null,
-                  buttonStyle: widget.titleButtonStyle,
-                  selectedButtonStyle: widget.titleSelectedButtonStyle,
-                  title: formattedDate.mN,
-                  isSelected: currentPageViewIndex == PageViewIndex.month,
-                  textStyle: widget.titleTextStyle,
-                  selectedTextStyle: widget.titleSelectedTextStyle,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  primaryColor: widget.primaryColor,
-                ),
-                5.0.spaceX,
-
-                /// year button
-                TypeDataButton(
-                  onPressed: _yearsButtonStatus()
-                      ? () {
-                          _pageController.animateToPage(
-                            PageViewIndex.year,
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInToLinear,
-                          );
-                          setState(() {
-                            currentPageViewIndex = PageViewIndex.year;
-                          });
-                        }
-                      : null,
-                  buttonStyle: widget.titleButtonStyle,
-                  selectedButtonStyle: widget.titleSelectedButtonStyle,
-                  title: widget.calendarType == CalendarType.persian
-                      ? formattedDate.yyyy.toPersianDigit()
-                      : formattedDate.yyyy,
-                  isSelected: currentPageViewIndex == PageViewIndex.year,
-                  textStyle: widget.titleTextStyle,
-                  selectedTextStyle: widget.titleSelectedTextStyle,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  primaryColor: widget.primaryColor,
-                ),
-                12.0.spaceX,
-              ],
-            ),
+    return BlocProvider(
+      create: (context) => DatePickerBloc()
+        ..add(
+          InitDatePicker(
+            calendarConfigurations: calendarConfigurations,
+            selectedDate: selectedDate,
           ),
-          if (widget.showTodayBanner || widget.useGoToTodayButton) ...[
-            3.spaceY,
-            TodayContext(
-              useGoToTodayButton: widget.useGoToTodayButton,
-              showTodayBanner: widget.showTodayBanner,
-              onPressed: (today) {
-                _updateSelectedDate(today);
-                setState(() {});
-              },
-              buttonStyle: widget.goButtonStyle,
-              onPrimaryColor: widget.onPrimaryColor,
-              primaryColor: widget.primaryColor,
-              borderRadius: widget.borderRadius,
-              isPersian: widget.calendarType == CalendarType.persian,
-              title: widget.goTitle,
-              goTextStyle: widget.goTextStyle,
-              todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
-            ),
-          ],
-
-          SizedBox(
-            width: 300,
-            height: 280,
-            child: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
+        ),
+      child: Builder(
+        builder: (context) {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: SimpleDialog(
+              shape: RoundedRectangleBorder(
+                /// border radius of the main box
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+              ),
+              backgroundColor: widget.background,
               children: [
-                /// day screen
-                DayPageView(
-                  selectedDate: selectedDate,
-                  selectedMonths: selectedMonths,
-                  selectedYear: selectedYear,
-                  selectedDay: selectedDay,
-                  dateButtonStyle: widget.dateButtonStyle,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  primaryColor: widget.primaryColor,
-                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
-                  isPersian: widget.calendarType == CalendarType.persian,
-                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
-                  dateTextStyle: widget.dateTextStyle,
-                  onPressed: (currentDay) {
-                    /// set new date with new index
-                    _updateSelectedDate(
-                      selectedDate.withDay(currentDay),
-                    );
-                    setState(() {});
-                  },
-                  child: WeekDaysList(
+                /// title box decoration
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: widget.titleBoxStyle ??
+                      BoxDecoration(
+                        color: widget.primaryColor ??
+                            Theme.of(context).primaryColor,
+                        borderRadius: widget.showTodayBanner ||
+                                widget.useGoToTodayButton
+                            ? BorderRadius.vertical(
+                                top: Radius.circular(widget.borderRadius * .6),
+                                bottom: const Radius.circular(5),
+                              )
+                            : BorderRadius.circular(widget.borderRadius * 0.6),
+                      ),
+
+                  /// title as date info
+                  child: BlocBuilder<DatePickerBloc, DatePickerState>(
+                    builder: (context, state) {
+                      selectedDate = state.selectedDate;
+
+                      return Row(
+                        children: [
+                          12.0.spaceX,
+
+                          /// day button
+                          TypeDataButton(
+                            onPressed: _daysButtonStatus()
+                                ? () {
+                                    _pageController.animateToPage(
+                                      PageViewIndex.day,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeInToLinear,
+                                    );
+                                    setState(() {
+                                      currentPageViewIndex = PageViewIndex.day;
+                                    });
+                                  }
+                                : null,
+                            buttonStyle: widget.titleButtonStyle,
+                            selectedButtonStyle:
+                                widget.titleSelectedButtonStyle,
+                            title: selectedDate.formatTo_dd(
+                              widget.calendarType,
+                            ),
+                            isSelected:
+                                currentPageViewIndex == PageViewIndex.day,
+                            textStyle: widget.titleTextStyle,
+                            selectedTextStyle: widget.titleSelectedTextStyle,
+                            onPrimaryColor: widget.onPrimaryColor,
+                            primaryColor: widget.primaryColor,
+                          ),
+                          5.0.spaceX,
+
+                          /// month button
+                          TypeDataButton(
+                            onPressed: _monthsButtonStatus()
+                                ? () {
+                                    _pageController.animateToPage(
+                                      PageViewIndex.month,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeInToLinear,
+                                    );
+                                    setState(() {
+                                      currentPageViewIndex =
+                                          PageViewIndex.month;
+                                    });
+                                  }
+                                : null,
+                            buttonStyle: widget.titleButtonStyle,
+                            selectedButtonStyle:
+                                widget.titleSelectedButtonStyle,
+                            title: selectedDate.fromatTo_MMMM(
+                              widget.calendarType,
+                            ),
+                            isSelected:
+                                currentPageViewIndex == PageViewIndex.month,
+                            textStyle: widget.titleTextStyle,
+                            selectedTextStyle: widget.titleSelectedTextStyle,
+                            onPrimaryColor: widget.onPrimaryColor,
+                            primaryColor: widget.primaryColor,
+                          ),
+                          5.0.spaceX,
+
+                          /// year button
+                          TypeDataButton(
+                            onPressed: _yearsButtonStatus()
+                                ? () {
+                                    _pageController.animateToPage(
+                                      PageViewIndex.year,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeInToLinear,
+                                    );
+                                    setState(() {
+                                      currentPageViewIndex = PageViewIndex.year;
+                                    });
+                                  }
+                                : null,
+                            buttonStyle: widget.titleButtonStyle,
+                            selectedButtonStyle:
+                                widget.titleSelectedButtonStyle,
+                            title: selectedDate.formatTo_yyyy(
+                              widget.calendarType,
+                            ),
+                            isSelected:
+                                currentPageViewIndex == PageViewIndex.year,
+                            textStyle: widget.titleTextStyle,
+                            selectedTextStyle: widget.titleSelectedTextStyle,
+                            onPrimaryColor: widget.onPrimaryColor,
+                            primaryColor: widget.primaryColor,
+                          ),
+                          12.0.spaceX,
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                if (widget.showTodayBanner || widget.useGoToTodayButton) ...[
+                  3.spaceY,
+                  TodayContext(
+                    useGoToTodayButton: widget.useGoToTodayButton,
+                    showTodayBanner: widget.showTodayBanner,
+                    buttonStyle: widget.goButtonStyle,
+                    onPrimaryColor: widget.onPrimaryColor,
                     primaryColor: widget.primaryColor,
-                    boxDecoration: widget.weekDaysBoxStyle,
-                    tilesPadding: widget.weekDaysPadding,
-                    textStyle: widget.weekDaysTextStyle,
+                    borderRadius: widget.borderRadius,
+                    title: widget.goTitle,
+                    goTextStyle: widget.goTextStyle,
+                    todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
+                  ),
+                ],
+
+                SizedBox(
+                  width: 300,
+                  height: 280,
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      /// day screen
+                      DayPageView(
+                        dateButtonStyle: widget.dateButtonStyle,
+                        onPrimaryColor: widget.onPrimaryColor,
+                        primaryColor: widget.primaryColor,
+                        dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                        dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                        dateTextStyle: widget.dateTextStyle,
+                        child: WeekDaysList(
+                          primaryColor: widget.primaryColor,
+                          boxDecoration: widget.weekDaysBoxStyle,
+                          tilesPadding: widget.weekDaysPadding,
+                          textStyle: widget.weekDaysTextStyle,
+                        ),
+                      ),
+
+                      /// month screen
+                      MonthPageView(
+                        dateButtonStyle: widget.dateButtonStyle,
+                        primaryColor: widget.primaryColor,
+                        onPrimaryColor: widget.onPrimaryColor,
+                        dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                        dateTextStyle: widget.dateTextStyle,
+                        dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                      ),
+
+                      /// year screen
+                      YearPageView(
+                        dateButtonStyle: widget.dateButtonStyle,
+                        primaryColor: widget.primaryColor,
+                        onPrimaryColor: widget.onPrimaryColor,
+                        dateSelectedTextStyle: widget.dateSelectedTextStyle,
+                        dateTextStyle: widget.dateTextStyle,
+                        dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                      ),
+                    ],
                   ),
                 ),
 
-                /// month screen
-                MonthPageView(
-                  dateButtonStyle: widget.dateButtonStyle,
-                  selectedMonths: selectedMonths,
-                  primaryColor: widget.primaryColor,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
-                  dateTextStyle: widget.dateTextStyle,
-                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
-                  onPressed: (currentMonth) {
-                    /// check the selected day if is 31 or 30 have to check
-                    /// the month
-                    /// if selected month is 12 have to check the leap year
-                    /// then decide the last day of the month is 29 or 30
-                    if ((selectedDay == 31 || selectedDay == 30) &&
-                        currentMonth == 12) {
-                      if (selectedDate.isLeapYear()) {
-                        _updateSelectedDate(selectedDate.withDay(30));
-                      } else {
-                        _updateSelectedDate(selectedDate.withDay(29));
-                      }
-                    }
-
-                    /// if selected month is 6 to 11 have to check the
-                    /// selected day and change it
-                    if (selectedDay == 31 && currentMonth > 6) {
-                      _updateSelectedDate(selectedDate.withDay(30));
-                    }
-
-                    /// set new date with new index
-                    _updateSelectedDate(
-                      selectedDate.withMonth(currentMonth),
-                    );
-                    setState(() {});
-                  },
-                ),
-
-                /// year screen
-                YearPageView(
-                  listLength: yearsList.length,
-                  dateButtonStyle: widget.dateButtonStyle,
-                  selectedYear: selectedYear,
-                  minYear: minYear,
-                  primaryColor: widget.primaryColor,
-                  onPrimaryColor: widget.onPrimaryColor,
-                  isPersian: widget.calendarType == CalendarType.persian,
-                  yearsList: yearsList,
-                  dateSelectedTextStyle: widget.dateSelectedTextStyle,
-                  dateTextStyle: widget.dateTextStyle,
-                  dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
-                  onPressed: (currentYear) {
-                    /// check the selected day if is 31 or 30 have to check
-                    /// the month
-                    /// if selected month is 12 have to check the leap year
-                    /// then decide the last day of the month is 29 or 30
-                    if (selectedDay == 30 && selectedMonths == 12) {
-                      final Jalali newDate = Jalali(currentYear + minYear);
-                      if (newDate.isLeapYear()) {
-                        _updateSelectedDate(selectedDate.withDay(30));
-                      } else {
-                        _updateSelectedDate(selectedDate.withDay(29));
-                      }
-                    }
-
-                    /// set new date with new index
-                    _updateSelectedDate(
-                      selectedDate.withYear(currentYear + minYear),
-                    );
-                    setState(() {});
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    children: [
+                      ChooseButton(
+                        onPressed: widget.onSubmit != null
+                            ? () {
+                                widget.onSubmit!(
+                                  selectedDate.parseToAllCalendars,
+                                  selectedDate.formatTo_dd_MMMM_yyyy(),
+                                );
+                                Navigator.pop(context);
+                              }
+                            : null,
+                        buttonStyle: widget.submitButtonStyle,
+                        borderRadius: widget.borderRadius,
+                        title: widget.submitTitle,
+                        textStyle: widget.submitTextStyle,
+                        primaryColor: widget.primaryColor,
+                        onPrimaryColor: widget.onPrimaryColor,
+                      ),
+                      8.0.spaceX,
+                      CancelButton(
+                        buttonStyle: widget.cancelButtonStyle,
+                        borderRadius: widget.borderRadius,
+                        title: widget.cancelTitle,
+                        textStyle: widget.cancelTextStyle,
+                        primaryColor: widget.primaryColor,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              children: [
-                ChooseButton(
-                  onPressed: widget.onSubmit != null
-                      ? () {
-                          widget.onSubmit!(
-                            selectedDate,
-                            selectedDateInText,
-                          );
-                          Navigator.pop(context);
-                        }
-                      : null,
-                  buttonStyle: widget.submitButtonStyle,
-                  borderRadius: widget.borderRadius,
-                  title: widget.submitTitle,
-                  textStyle: widget.submitTextStyle,
-                  primaryColor: widget.primaryColor,
-                  onPrimaryColor: widget.onPrimaryColor,
-                ),
-                8.0.spaceX,
-                CancelButton(
-                  buttonStyle: widget.cancelButtonStyle,
-                  borderRadius: widget.borderRadius,
-                  title: widget.cancelTitle,
-                  textStyle: widget.cancelTextStyle,
-                  primaryColor: widget.primaryColor,
-                ),
-              ],
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -441,23 +398,6 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
     if (widget.pickDateFormat == PickDateFormat.mm) includeYears = false;
     if (widget.pickDateFormat == PickDateFormat.ddMM) includeYears = false;
     return includeYears;
-  }
-
-  void _updateSelectedDate(Jalali jalaliDate) {
-    /// update selected date
-    selectedDate = jalaliDate;
-
-    /// update the format of the selected date
-    formattedDate = selectedDate.formatter;
-
-    /// update the day of the selected day
-    selectedDay = selectedDate.day;
-    selectedMonths = selectedDate.month;
-    selectedYear = selectedDate.year;
-
-    /// update selected date in text
-    selectedDateInText =
-        '$selectedDay ${AppConstants.monthsMap[selectedMonths]} $selectedYear';
   }
 }
 
