@@ -1,0 +1,29 @@
+{
+    "@@locale": "en",
+
+    "gregorian_month_january": "January",
+    "gregorian_month_february": "February",
+    "gregorian_month_march": "March",
+    "gregorian_month_april": "April",
+    "gregorian_month_may": "May",
+    "gregorian_month_june": "June",
+    "gregorian_month_july": "July",
+    "gregorian_month_august": "August",
+    "gregorian_month_september": "September",
+    "gregorian_month_october": "October",
+    "gregorian_month_november": "November",
+    "gregorian_month_december": "December",
+
+    "jalali_month_farvardin": "Farvardin",
+    "jalali_month_ordibehesht": "Ordibehesht",
+    "jalali_month_khordad": "Khordad",
+    "jalali_month_tir": "Tir",
+    "jalali_month_mordad": "Mordad",
+    "jalali_month_shahrivar": "Shahrivar",
+    "jalali_month_mehr": "Mehr",
+    "jalali_month_aban": "Aban",
+    "jalali_month_azar": "Azar",
+    "jalali_month_dey": "Dey",
+    "jalali_month_bahman": "Bahman",
+    "jalali_month_esfand": "Esfand"
+}

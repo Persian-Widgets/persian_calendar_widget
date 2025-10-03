@@ -1,0 +1,29 @@
+{
+    "@@locale": "fa",
+
+    "gregorian_month_january": "ژانویه",
+    "gregorian_month_february": "فوریه",
+    "gregorian_month_march": "مارس",
+    "gregorian_month_april": "آوریل",
+    "gregorian_month_may": "مه",
+    "gregorian_month_june": "ژوئن",
+    "gregorian_month_july": "ژوئیه",
+    "gregorian_month_august": "اوت",
+    "gregorian_month_september": "سپتامبر",
+    "gregorian_month_october": "اکتبر",
+    "gregorian_month_november": "نوامبر",
+    "gregorian_month_december": "دسامبر",
+
+    "jalali_month_farvardin": "فروردین",
+    "jalali_month_ordibehesht": "اردیبهشت",
+    "jalali_month_khordad": "خرداد",
+    "jalali_month_tir": "تیر",
+    "jalali_month_mordad": "مرداد",
+    "jalali_month_shahrivar": "شهریور",
+    "jalali_month_mehr": "مهر",
+    "jalali_month_aban": "آبان",
+    "jalali_month_azar": "آذر",
+    "jalali_month_dey": "دی",
+    "jalali_month_bahman": "بهمن",
+    "jalali_month_esfand": "اسفند"
+}
