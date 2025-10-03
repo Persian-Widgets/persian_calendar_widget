@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/extension/date_details.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 
 class YearPageView extends StatelessWidget {
   final ButtonStyle? dateButtonStyle;
@@ -11,6 +12,7 @@ class YearPageView extends StatelessWidget {
   final Color? onPrimaryColor;
   final TextStyle? dateSelectedTextStyle;
   final TextStyle? dateTextStyle;
+  final bool enablePersianDigits;
   const YearPageView({
     required this.dateButtonStyle,
     required this.dateSelectedButtonStyle,
@@ -18,6 +20,7 @@ class YearPageView extends StatelessWidget {
     required this.onPrimaryColor,
     required this.dateSelectedTextStyle,
     required this.dateTextStyle,
+    required this.enablePersianDigits,
     Key? key,
   }) : super(key: key);
 
@@ -72,7 +75,7 @@ class YearPageView extends StatelessWidget {
                     : selectedYear == currentYear
                         ? dateSelectedTextStyle ?? dateTextStyle
                         : dateTextStyle,
-              ),
+              ).withPersianDigits(enable: enablePersianDigits),
               onPressed: () =>
                   context.read<DatePickerBloc>().add(SelectYear(currentYear)),
             );

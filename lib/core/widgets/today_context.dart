@@ -6,6 +6,7 @@ import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/core/extension/date_formatter.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
 import 'package:persian_calendar_widget/core/extension/space_xy.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 
 class TodayContext extends StatelessWidget {
   final bool useGoToTodayButton;
@@ -18,6 +19,7 @@ class TodayContext extends StatelessWidget {
   final TextStyle? goTextStyle;
   final TextStyle? todayDateBannerTextStyle;
   final I18n i18n;
+  final bool enablePersianDigits;
   const TodayContext({
     required this.useGoToTodayButton,
     required this.showTodayBanner,
@@ -29,6 +31,7 @@ class TodayContext extends StatelessWidget {
     required this.goTextStyle,
     required this.todayDateBannerTextStyle,
     required this.i18n,
+    required this.enablePersianDigits,
     super.key,
   });
 
@@ -142,7 +145,9 @@ class TodayContext extends StatelessWidget {
                                   Theme.of(context).primaryColor,
                             ),
                         textAlign: TextAlign.center,
-                      ).scaleDown;
+                      )
+                          .withPersianDigits(enable: enablePersianDigits)
+                          .scaleDown;
                     },
                   ),
                 ),

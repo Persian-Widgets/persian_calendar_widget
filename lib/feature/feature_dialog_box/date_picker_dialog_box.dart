@@ -61,6 +61,7 @@ class DatePickerDialogBox extends StatefulWidget {
   final TextStyle? todayDateBannerTextStyle;
   final FirstDayOfWeek? firstDayOfWeek;
   final I18n? i18n;
+  final bool enablePersianDigits;
 
   const DatePickerDialogBox({
     required this.initialDate,
@@ -99,6 +100,7 @@ class DatePickerDialogBox extends StatefulWidget {
     required this.weekDaysTextStyle,
     required this.firstDayOfWeek,
     required this.i18n,
+    required this.enablePersianDigits,
     super.key,
   });
 
@@ -204,6 +206,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                     });
                                   }
                                 : null,
+                            enablePersianDigits: widget.enablePersianDigits,
                             buttonStyle: widget.titleButtonStyle,
                             selectedButtonStyle:
                                 widget.titleSelectedButtonStyle,
@@ -235,6 +238,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                     });
                                   }
                                 : null,
+                            enablePersianDigits: widget.enablePersianDigits,
                             buttonStyle: widget.titleButtonStyle,
                             selectedButtonStyle:
                                 widget.titleSelectedButtonStyle,
@@ -267,6 +271,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                                     });
                                   }
                                 : null,
+                            enablePersianDigits: widget.enablePersianDigits,
                             buttonStyle: widget.titleButtonStyle,
                             selectedButtonStyle:
                                 widget.titleSelectedButtonStyle,
@@ -299,6 +304,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                     goTextStyle: widget.goTextStyle,
                     todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
                     i18n: i18n,
+                    enablePersianDigits: widget.enablePersianDigits,
                   ),
                 ],
 
@@ -317,11 +323,13 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                         dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
                         dateSelectedTextStyle: widget.dateSelectedTextStyle,
                         dateTextStyle: widget.dateTextStyle,
+                        enablePersianDigits: widget.enablePersianDigits,
                         child: WeekDaysList(
                           primaryColor: widget.primaryColor,
                           boxDecoration: widget.weekDaysBoxStyle,
                           tilesPadding: widget.weekDaysPadding,
                           textStyle: widget.weekDaysTextStyle,
+                          enablePersianDigits: widget.enablePersianDigits,
                         ),
                       ),
 
@@ -343,6 +351,7 @@ class _DatePickerDialogBoxState extends State<DatePickerDialogBox> {
                         dateSelectedTextStyle: widget.dateSelectedTextStyle,
                         dateTextStyle: widget.dateTextStyle,
                         dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                        enablePersianDigits: widget.enablePersianDigits,
                       ),
                     ],
                   ),

@@ -54,6 +54,7 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
   final TextStyle? todayDateBannerTextStyle;
   final FirstDayOfWeek? firstDayOfWeek;
   final I18n? i18n;
+  final bool enablePersianDigits;
 
   const DatePickerDialogBoxWithoutDay({
     required this.initialDate,
@@ -88,6 +89,7 @@ class DatePickerDialogBoxWithoutDay extends StatefulWidget {
     required this.todayDateBannerTextStyle,
     required this.firstDayOfWeek,
     required this.i18n,
+    required this.enablePersianDigits,
     super.key,
   });
 
@@ -189,6 +191,7 @@ class _DatePickerDialogBoxWithoutDayState
                                 currentPageViewIndex = PageViewIndex.month;
                               });
                             },
+                            enablePersianDigits: widget.enablePersianDigits,
                             buttonStyle: widget.titleButtonStyle,
                             selectedButtonStyle:
                                 widget.titleSelectedButtonStyle,
@@ -218,6 +221,7 @@ class _DatePickerDialogBoxWithoutDayState
                                 currentPageViewIndex = PageViewIndex.year;
                               });
                             },
+                            enablePersianDigits: widget.enablePersianDigits,
                             buttonStyle: widget.titleButtonStyle,
                             selectedButtonStyle:
                                 widget.titleSelectedButtonStyle,
@@ -250,6 +254,7 @@ class _DatePickerDialogBoxWithoutDayState
                     goTextStyle: widget.goTextStyle,
                     todayDateBannerTextStyle: widget.todayDateBannerTextStyle,
                     i18n: i18n,
+                    enablePersianDigits: widget.enablePersianDigits,
                   ),
                 ],
 
@@ -278,6 +283,7 @@ class _DatePickerDialogBoxWithoutDayState
                         dateSelectedTextStyle: widget.dateSelectedTextStyle,
                         dateTextStyle: widget.dateTextStyle,
                         dateSelectedButtonStyle: widget.dateSelectedButtonStyle,
+                        enablePersianDigits: widget.enablePersianDigits,
                       ),
                     ],
                   ),

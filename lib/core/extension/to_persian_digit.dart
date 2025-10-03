@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension ToPersianDigit on String? {
-  String toPersianDigit() {
+  String toPersianDigit({bool enable = true}) {
+    if (!enable) return this ?? '';
     String? result = this;
 
     if (result == null) {
@@ -24,7 +25,8 @@ extension ToPersianDigit on String? {
 }
 
 extension PersianTextExtension on Text {
-  Text withPersianDigits() {
+  Text withPersianDigits({bool enable = true}) {
+    if (!enable) return this;
     final String? originalText = data;
     final String convertedText = originalText?.toPersianDigit() ?? '';
 

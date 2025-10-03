@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 
 class TypeDataButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -11,6 +12,7 @@ class TypeDataButton extends StatelessWidget {
   final TextStyle? selectedTextStyle;
   final Color? onPrimaryColor;
   final Color? primaryColor;
+  final bool enablePersianDigits;
   const TypeDataButton({
     required this.onPressed,
     required this.buttonStyle,
@@ -21,6 +23,7 @@ class TypeDataButton extends StatelessWidget {
     required this.selectedTextStyle,
     required this.onPrimaryColor,
     required this.primaryColor,
+    required this.enablePersianDigits,
     Key? key,
   }) : super(key: key);
 
@@ -52,7 +55,7 @@ class TypeDataButton extends StatelessWidget {
               : isSelected
                   ? selectedTextStyle ?? textStyle
                   : textStyle,
-        ).scaleDown,
+        ).withPersianDigits(enable: enablePersianDigits).scaleDown,
       ),
     );
   }

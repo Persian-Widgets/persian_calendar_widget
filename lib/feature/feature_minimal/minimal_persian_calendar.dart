@@ -33,6 +33,7 @@ class MinimalPersianCalendar {
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
     I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -74,6 +75,7 @@ class MinimalPersianCalendar {
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
           i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -105,6 +107,7 @@ class MinimalPersianCalendar {
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
     I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -146,6 +149,7 @@ class MinimalPersianCalendar {
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
           i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -179,6 +183,7 @@ class MinimalPersianCalendar {
     TextStyle? weekDaysTextStyle,
     FirstDayOfWeek? firstDayOfWeek,
     I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -220,6 +225,7 @@ class MinimalPersianCalendar {
           weekDaysTextStyle: weekDaysTextStyle,
           firstDayOfWeek: firstDayOfWeek,
           i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -250,6 +256,7 @@ class MinimalPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -287,6 +294,7 @@ class MinimalPersianCalendar {
           goTextStyle: goTextStyle,
           firstDayOfWeek: null,
           i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );

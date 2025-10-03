@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_calendar_widget/core/bloc/date_picker_bloc/date_picker_bloc.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 
 class WeekDaysList extends StatelessWidget {
   final BoxDecoration? boxDecoration;
@@ -9,7 +10,9 @@ class WeekDaysList extends StatelessWidget {
   final EdgeInsetsGeometry? tilesPadding;
   final EdgeInsetsGeometry? listPadding;
   final Color? primaryColor;
+  final bool enablePersianDigits;
   const WeekDaysList({
+    required this.enablePersianDigits,
     Key? key,
     this.boxDecoration,
     this.primaryColor,
@@ -54,7 +57,7 @@ class WeekDaysList extends StatelessWidget {
                             color:
                                 primaryColor ?? Theme.of(context).primaryColor,
                           ),
-                    ).scaleDown,
+                    ).withPersianDigits(enable: enablePersianDigits).scaleDown,
                   ),
                 ),
               );

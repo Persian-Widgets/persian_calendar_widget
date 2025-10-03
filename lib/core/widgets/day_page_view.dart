@@ -5,6 +5,7 @@ import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
 import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
 import 'package:persian_calendar_widget/core/extension/date_details.dart';
 import 'package:persian_calendar_widget/core/extension/scale_down_box.dart';
+import 'package:persian_calendar_widget/core/extension/to_persian_digit.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class DayPageView extends StatefulWidget {
@@ -15,6 +16,7 @@ class DayPageView extends StatefulWidget {
   final Widget child;
   final TextStyle? dateSelectedTextStyle;
   final TextStyle? dateTextStyle;
+  final bool enablePersianDigits;
 
   const DayPageView({
     required this.dateButtonStyle,
@@ -24,6 +26,7 @@ class DayPageView extends StatefulWidget {
     required this.child,
     required this.dateSelectedTextStyle,
     required this.dateTextStyle,
+    required this.enablePersianDigits,
     Key? key,
   }) : super(key: key);
 
@@ -138,7 +141,9 @@ class _DayPageViewState extends State<DayPageView> {
                               ? widget.dateSelectedTextStyle ??
                                   widget.dateTextStyle
                               : widget.dateTextStyle,
-                    ).scaleDown,
+                    )
+                        .withPersianDigits(enable: widget.enablePersianDigits)
+                        .scaleDown,
                     onPressed: () => context
                         .read<DatePickerBloc>()
                         .add(SelectDay(currentDay)),
