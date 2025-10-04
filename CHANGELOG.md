@@ -1,3 +1,21 @@
+## 0.6.0
+
+### Major Features
+* Added support for Gregorian calendar alongside Persian calendar
+* Implemented internationalization (i18n) support
+* Added customizable first day of week option (Saturday/Sunday/Monday)
+* Added Persian digits toggle feature
+
+### Breaking Changes
+* Changed `onSubmit` callback signature to return both Jalali and Gregorian dates
+* Updated calendar type handling with new `CalendarType` enum
+
+### Enhancements
+* Enhanced i18n support with customizable text strings
+* Improved type safety with new enums and records
+* Added better documentation and examples
+* Updated UI customization options
+
 ## 0.5.0
 * Optimize resizing dialog box width
 * Refactor date picker dialog boxes
