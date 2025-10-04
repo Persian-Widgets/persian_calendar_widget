@@ -1,10 +1,10 @@
 # persian_calendar_widget
 
-A Flutter package that provides users access to pick a date using a Persian calendar.
+A Flutter package that provides users access to pick a date using Persian and Gregorian calendars, with support for internationalization (i18n).
 
-| <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_MINIMAL_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> | <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_CUSTOM_DECORATION_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> |
-| :------: | :------: | 
-| **Minimal Calendar** | **Custom Decoration Calendar** |                                                      
+| <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_MINIMAL_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> | <img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_CUSTOM_DECORATION_PERSIAN_CALENDAR.png?raw=true" width='250' alt="Minimal persian calendar" /> |<img src="https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/PREVIEW_CUSTOM_DECORATION_PERSIAN_CALENDAR_I18L.png?raw=true" width='250' alt="Minimal persian calendar" /> |
+| :------: | :------: | :------: | 
+| **Minimal Calendar** | **Custom Decoration Calendar** |  **Custom Decoration in English** |                                                      
 
 
 ## Usage
@@ -19,17 +19,18 @@ ElevatedButton(
         /// user have access to pick day, month and year
         MinimalPersianCalendar.pickFullDate(
             context: context,
-            onSubmit: (jalaliDate, dateInText) {
-                /// when user choose date from dialog box and submit two
-                /// types of `Jalali` date returned here
-                /// Jalali [jalaliDate]: Jalali(year, month, day, hour, minute, second, millisecond)
-                /// String [dateInText]: '12 ordibehesht 1403'
+            onSubmit: (selectedDate, formattedDate) {
+                /// when user chooses a date, two formats are returned:
+                /// Record [selectedDate]: (jalali: Jalali(...), gregorian: Gregorian(...))
+                /// Record [formattedDate]: (jalali: '12 ordibehesht 1403', gregorian: '2 May 2024')
                 setState(() {
-                    selectedDate = dateInText;
+                    selectedDate = formattedDate.jalali; // or formattedDate.gregorian
                 });
-                log('dateInText of pick full date: $dateInText');
-                log('jalaliDate of pick full date: $jalaliDate');
+                log('Jalali date: ${formattedDate.jalali}');
+                log('Gregorian date: ${formattedDate.gregorian}');
             },
+            calendarType: CalendarType.jalali, // or CalendarType.gregorian
+            i18n: I18n(), // Customize text strings and localizations
             showTodayBanner: true,
             useGoToTodayButton: true,
         );
@@ -132,6 +133,101 @@ ElevatedButton(
     child: const Text('انتخاب روز ماه و سال')),
 ```
 
+### Calendar Type Support
+
+The widget now supports both Persian (Jalali) and Gregorian calendars. You can switch between them using the `calendarType` parameter:
+
+```Dart
+// For Persian calendar
+calendarType: CalendarType.jalali
+
+// For Gregorian calendar
+calendarType: CalendarType.gregorian
+```
+
+### First Day of Week
+
+You can customize which day of the week should appear as the first day in the calendar using the `firstDayOfWeek` parameter:
+
+```Dart
+MinimalPersianCalendar.pickFullDate(
+    context: context,
+    firstDayOfWeek: FirstDayOfWeek.saturday, // Start week from Saturday
+    // or
+    firstDayOfWeek: FirstDayOfWeek.sunday,   // Start week from Sunday
+    // or
+    firstDayOfWeek: FirstDayOfWeek.monday,   // Start week from Monday
+    // ... other parameters
+);
+```
+
+### Persian Digits Support
+
+You can enable or disable Persian numbers in the calendar using the `enablePersianDigits` parameter:
+
+```Dart
+MinimalPersianCalendar.pickFullDate(
+    context: context,
+    enablePersianDigits: true,  // Enable Persian numbers (default)
+    // or
+    enablePersianDigits: false, // Use Western Arabic numbers
+    // ... other parameters
+);
+```
+
+### Internationalization (i18n)
+
+You can customize all text strings in the calendar using the `i18n` parameter:
+
+```Dart
+MinimalPersianCalendar.pickFullDate(
+    context: context,
+    i18n: I18n(
+            buttons: I18nButtons(
+              cancel: S.current.button_cancel,
+              submit: S.current.button_submit,
+            ),
+            weekCodes: I18nWeekCodes(
+              saturday: S.current.week_day_sat,
+              sunday: S.current.week_day_sun,
+              monday: S.current.week_day_mon,
+              tuesday: S.current.week_day_tue,
+              wednesday: S.current.week_day_wed,
+              thursday: S.current.week_day_thu,
+              friday: S.current.week_day_fri,
+            ),
+            gregorianMonths: I18nGregorianMonths(
+              january: S.current.gregorian_month_january,
+              february: S.current.gregorian_month_february,
+              march: S.current.gregorian_month_march,
+              april: S.current.gregorian_month_april,
+              may: S.current.gregorian_month_may,
+              june: S.current.gregorian_month_june,
+              july: S.current.gregorian_month_july,
+              august: S.current.gregorian_month_august,
+              september: S.current.gregorian_month_september,
+              october: S.current.gregorian_month_october,
+              november: S.current.gregorian_month_november,
+              december: S.current.gregorian_month_december,
+            ),
+            persianMonths: I18nPersianMonths(
+              farvardin: S.current.jalali_month_farvardin,
+              ordibehesht: S.current.jalali_month_ordibehesht,
+              khordad: S.current.jalali_month_khordad,
+              tir: S.current.jalali_month_tir,
+              mordad: S.current.jalali_month_mordad,
+              shahrivar: S.current.jalali_month_shahrivar,
+              mehr: S.current.jalali_month_mehr,
+              aban: S.current.jalali_month_aban,
+              azar: S.current.jalali_month_azar,
+              dey: S.current.jalali_month_dey,
+              bahman: S.current.jalali_month_bahman,
+              esfand: S.current.jalali_month_esfand,
+            )),
+    // ... other parameters
+);
+```
+
 ### toPersianDigit extension
 
 ```Dart
@@ -151,7 +247,11 @@ Text(
 | Parameter    | Description                                       | Type                                                   | Default              |
 |--------------|---------------------------------------------------|--------------------------------------------------------|----------------------|
 | `context`   | Callback function returning the picked date        | BuildContext                                           | Required             |
-| `onSubmit`   | Callback function returning the picked date      | Function(Jalali jalaliDate, String dateInText)          | Required             |
+| `onSubmit`   | Callback function returning the picked date      | Function(({Jalali jalali, Gregorian gregorian}), ({String jalali, String gregorian}))          | Required             |
+| `calendarType` | Type of calendar to display (Jalali/Gregorian)   | CalendarType                                           | Required             |
+| `i18n`      | Internationalization settings for calendar text    | I18n                                                   | Default I18n()       |
+| `enablePersianDigits` | Enable or disable Persian numbers in the calendar | bool | true |
+| `firstDayOfWeek` | Set the starting day of the week (Saturday/Sunday/Monday) | FirstDayOfWeek | Saturday |
 | `initialDate`| Initial date displayed in the calendar            | DateTime                                               | DateTime.now()       |
 | `borderRadius` | Border radius of the dialog box                 | double                                                 | 20                 |
 | `maxYear`    | Maximum selectable year                           | int                                                    | DateTime.now() + 11|
@@ -181,7 +281,11 @@ Text(
 | Parameter    | Description                                       | Type                                                   | Default              |
 |--------------|---------------------------------------------------|--------------------------------------------------------|----------------------|
 | `context`   | Callback function returning the picked date        | BuildContext                                           | Required             |
-| `onSubmit`   | Callback function returning the picked date      | Function(Jalali jalaliDate, String dateInText)          | Required             |
+| `onSubmit`   | Callback function returning the picked date      | Function(({Jalali jalali, Gregorian gregorian}), ({String jalali, String gregorian}))          | Required             |
+| `calendarType` | Type of calendar to display (Jalali/Gregorian)   | CalendarType                                           | Required             |
+| `i18n`      | Internationalization settings for calendar text    | I18n                                                   | Default I18n()       |
+| `enablePersianDigits` | Enable or disable Persian numbers in the calendar | bool | true |
+| `firstDayOfWeek` | Set the starting day of the week (Saturday/Sunday/Monday) | FirstDayOfWeek | Saturday |
 | `initialDate`| Initial date displayed in the calendar            | DateTime                                               | DateTime.now()       |
 | `borderRadius` | Border radius of the dialog box                 | double                                                 | 20                 |
 | `maxYear`    | Maximum selectable year                           | int                                                    | DateTime.now() + 11|

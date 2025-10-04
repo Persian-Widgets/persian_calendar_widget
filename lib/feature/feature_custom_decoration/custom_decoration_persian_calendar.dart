@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:persian_calendar_widget/core/enum/enum.dart';
+import 'package:persian_calendar_widget/core/data/enums/calendar_type.dart';
+import 'package:persian_calendar_widget/core/data/enums/first_day_of_week.dart';
+import 'package:persian_calendar_widget/core/data/enums/pick_date_format.dart';
+import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box.dart';
 import 'package:persian_calendar_widget/feature/feature_dialog_box/date_picker_dialog_box_without_day.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-typedef OnPickDate = void Function(Jalali jalaliDate, String dateInText);
+typedef OnPickDate = void Function(
+  ({Jalali jalali, Gregorian gregorian}) selectedDate,
+  ({String jalali, String gregorian}) formattedDate,
+);
 
 class CustomDecorationPersianCalendar {
   static void pickDay({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     double? borderRadius,
     Color? primaryColor,
@@ -39,6 +46,9 @@ class CustomDecorationPersianCalendar {
     BoxDecoration? weekDaysBoxStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -68,7 +78,7 @@ class CustomDecorationPersianCalendar {
           titleSelectedButtonStyle: titleSelectedButtonStyle,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -78,6 +88,9 @@ class CustomDecorationPersianCalendar {
           weekDaysBoxStyle: weekDaysBoxStyle,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -86,6 +99,7 @@ class CustomDecorationPersianCalendar {
   static void pickMonthAndDay({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     double? borderRadius,
     Color? primaryColor,
@@ -115,6 +129,9 @@ class CustomDecorationPersianCalendar {
     BoxDecoration? weekDaysBoxStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -144,7 +161,7 @@ class CustomDecorationPersianCalendar {
           titleSelectedButtonStyle: titleSelectedButtonStyle,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -154,6 +171,9 @@ class CustomDecorationPersianCalendar {
           weekDaysBoxStyle: weekDaysBoxStyle,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -162,6 +182,7 @@ class CustomDecorationPersianCalendar {
   static void pickFullDate({
     required BuildContext context,
     required OnPickDate? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     int? maxYear,
     int? minYear,
@@ -193,6 +214,9 @@ class CustomDecorationPersianCalendar {
     BoxDecoration? weekDaysBoxStyle,
     EdgeInsetsGeometry? weekDaysPadding,
     TextStyle? weekDaysTextStyle,
+    FirstDayOfWeek? firstDayOfWeek,
+    I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -222,7 +246,7 @@ class CustomDecorationPersianCalendar {
           titleSelectedButtonStyle: titleSelectedButtonStyle,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
@@ -232,6 +256,9 @@ class CustomDecorationPersianCalendar {
           weekDaysBoxStyle: weekDaysBoxStyle,
           weekDaysPadding: weekDaysPadding,
           weekDaysTextStyle: weekDaysTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
+          i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );
@@ -240,6 +267,7 @@ class CustomDecorationPersianCalendar {
   static void pickYearAndMonth({
     required BuildContext context,
     required OnPickDateWithoutDay? onSubmit,
+    required CalendarType calendarType,
     DateTime? initialDate,
     int? maxYear,
     int? minYear,
@@ -268,6 +296,8 @@ class CustomDecorationPersianCalendar {
     String? goTitle,
     TextStyle? goTextStyle,
     ButtonStyle? goButtonStyle,
+    I18n? i18n,
+    bool? enablePersianDigits,
   }) {
     showDialog(
       context: context,
@@ -296,13 +326,16 @@ class CustomDecorationPersianCalendar {
           titleSelectedButtonStyle: titleSelectedButtonStyle,
           titleSelectedTextStyle: titleSelectedTextStyle,
           titleTextStyle: titleTextStyle,
-          calendarType: CalendarType.persian,
+          calendarType: calendarType,
           showTodayBanner: showTodayBanner ?? false,
           todayDateBannerTextStyle: todayDateBannerTextStyle,
           useGoToTodayButton: useGoToTodayButton ?? false,
           goTitle: goTitle,
           goButtonStyle: goButtonStyle,
           goTextStyle: goTextStyle,
+          firstDayOfWeek: null,
+          i18n: i18n,
+          enablePersianDigits: enablePersianDigits ?? true,
         );
       },
     );

@@ -4,8 +4,3 @@ enum PickDateFormat {
   ddMM, // day and month
   ddMMyyyy, // day, month and year
 }
-
-enum CalendarType {
-  persian,
-  gregorian,
-}
