@@ -37,11 +37,11 @@ class _MonthPageViewState extends State<MonthPageView> {
         final jalaliMonths = state.jalaliMonths;
         final gregorianMonths = state.gregorianMonths;
 
-        if (jalaliMonths.isEmpty && calendarType == CalendarType.persian) {
+        if (jalaliMonths.isEmpty && calendarType.isPersian) {
           return const CircularProgressIndicator();
         }
 
-        if (gregorianMonths.isEmpty && calendarType == CalendarType.gregorian) {
+        if (gregorianMonths.isEmpty && calendarType.isGregorian) {
           return const CircularProgressIndicator();
         }
 
@@ -78,7 +78,7 @@ class _MonthPageViewState extends State<MonthPageView> {
                       ? widget.dateSelectedButtonStyle ?? widget.dateButtonStyle
                       : widget.dateButtonStyle,
               child: Text(
-                calendarType == CalendarType.persian
+                calendarType.isPersian
                     ? jalaliMonths[currentMonth]!
                     : gregorianMonths[currentMonth]!,
                 style: widget.dateTextStyle == null

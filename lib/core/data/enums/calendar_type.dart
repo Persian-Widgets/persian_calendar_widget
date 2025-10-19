@@ -1,4 +1,7 @@
 enum CalendarType {
   persian,
-  gregorian,
+  gregorian;
+
+  bool get isPersian => this == CalendarType.persian;
+  bool get isGregorian => this == CalendarType.gregorian;
 }

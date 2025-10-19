@@ -80,7 +80,7 @@ class _DayPageViewState extends State<DayPageView> {
     DateTime selectedDate,
     FirstDayOfWeek firstDay,
   ) {
-    final int baseMonthLength = calendarType == CalendarType.gregorian
+    final int baseMonthLength = calendarType.isGregorian
         ? selectedDate.toGregorian().monthLength
         : selectedDate.toJalali().monthLength;
 

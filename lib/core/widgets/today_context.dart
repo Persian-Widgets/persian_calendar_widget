@@ -47,7 +47,7 @@ class TodayContext extends StatelessWidget {
       weekNames,
     );
 
-    return calendarType == CalendarType.persian
+    return calendarType.isPersian
         ? formattedDate.jalali
         : formattedDate.gregorian;
   }

@@ -18,24 +18,24 @@ class CalendarConfigurations {
   })  : initDate = initDate ?? DateTime.now(),
         firstDayOfWeek = firstDayOfWeek ?? FirstDayOfWeek.saturday,
         minYear = minYear ??
-            (calendarType == CalendarType.persian
+            (calendarType.isPersian
                 ? (initDate ?? DateTime.now()).toJalali().year
                 : (initDate ?? DateTime.now()).year),
         maxYear = maxYear ??
-            ((calendarType == CalendarType.persian
+            ((calendarType.isPersian
                     ? (initDate ?? DateTime.now()).toJalali().year
                     : (initDate ?? DateTime.now()).year) +
                 11) {
     // if (minYear! > maxYear!) {
     //   throw Exception('minYear must be less than or equal to maxYear');
     // }
-    // if (calendarType == CalendarType.persian) {
+    // if (calendarType.isPersian) {
     //   final int initYear = initDate!.toJalali().year;
     //   if (initYear < minYear || initYear > maxYear) {
     //     throw Exception('initDate year must be between minYear and maxYear');
     //   }
     // }
-    // if (calendarType == CalendarType.gregorian) {
+    // if (calendarType.isGregorian) {
     //   final int initYear = initDate!.year;
     //   if (initYear < minYear || initYear > maxYear) {
     //     throw Exception('initDate year must be between minYear and maxYear');

@@ -52,7 +52,7 @@ extension DateFormatter on DateTime {
   }
 
   String formatTo_dd(CalendarType calendarType) {
-    if (calendarType == CalendarType.persian) {
+    if (calendarType.isPersian) {
       final JalaliFormatter jFormattedDate =
           Jalali.fromDateTime(this).formatter;
       return jFormattedDate.d;
@@ -64,7 +64,7 @@ extension DateFormatter on DateTime {
   }
 
   String formatTo_yyyy(CalendarType calendarType) {
-    if (calendarType == CalendarType.persian) {
+    if (calendarType.isPersian) {
       final JalaliFormatter jFormattedDate =
           Jalali.fromDateTime(this).formatter;
       return jFormattedDate.yyyy;
@@ -80,7 +80,7 @@ extension DateFormatter on DateTime {
     Map<int, String> jalaliMonths,
     Map<int, String> gregorianMonths,
   ) {
-    return calendarType == CalendarType.persian
+    return calendarType.isPersian
         ? jalaliMonths[toJalali().month] ?? ''
         : gregorianMonths[month] ?? '';
   }
