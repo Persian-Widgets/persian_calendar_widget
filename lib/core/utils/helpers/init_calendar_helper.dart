@@ -64,7 +64,7 @@ class InitCalendarHelper {
     FirstDayOfWeek firstDayOfWeek,
     I18n i18n,
   ) {
-    if (firstDayOfWeek == FirstDayOfWeek.saturday) {
+    if (firstDayOfWeek.isSaturday) {
       return {
         1: i18n.weekCodes.saturday,
         2: i18n.weekCodes.sunday,
@@ -75,7 +75,7 @@ class InitCalendarHelper {
         7: i18n.weekCodes.friday,
       };
     }
-    if (firstDayOfWeek == FirstDayOfWeek.sunday) {
+    if (firstDayOfWeek.isSunday) {
       return {
         1: i18n.weekCodes.sunday,
         2: i18n.weekCodes.monday,
