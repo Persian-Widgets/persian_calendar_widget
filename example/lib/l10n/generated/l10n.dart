@@ -64,6 +64,16 @@ class S {
     return Intl.message('Submit', name: 'button_submit', desc: '', args: []);
   }
 
+  /// `Go to`
+  String get button_goTo {
+    return Intl.message('Go to', name: 'button_goTo', desc: '', args: []);
+  }
+
+  /// `Go today`
+  String get button_goToday {
+    return Intl.message('Go today', name: 'button_goToday', desc: '', args: []);
+  }
+
   /// `sa`
   String get week_day_sat {
     return Intl.message('sa', name: 'week_day_sat', desc: '', args: []);
@@ -97,6 +107,76 @@ class S {
   /// `fr`
   String get week_day_fri {
     return Intl.message('fr', name: 'week_day_fri', desc: '', args: []);
+  }
+
+  /// `saturday`
+  String get week_day_sat_name {
+    return Intl.message(
+      'saturday',
+      name: 'week_day_sat_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `sunday`
+  String get week_day_sun_name {
+    return Intl.message(
+      'sunday',
+      name: 'week_day_sun_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `monday`
+  String get week_day_mon_name {
+    return Intl.message(
+      'monday',
+      name: 'week_day_mon_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `tuesday`
+  String get week_day_tue_name {
+    return Intl.message(
+      'tuesday',
+      name: 'week_day_tue_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `wednesday`
+  String get week_day_wed_name {
+    return Intl.message(
+      'wednesday',
+      name: 'week_day_wed_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `tuesday`
+  String get week_day_thu_name {
+    return Intl.message(
+      'tuesday',
+      name: 'week_day_thu_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `friday`
+  String get week_day_fri_name {
+    return Intl.message(
+      'friday',
+      name: 'week_day_fri_name',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `January`

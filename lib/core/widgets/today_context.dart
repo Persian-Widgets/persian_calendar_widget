@@ -52,6 +52,22 @@ class TodayContext extends StatelessWidget {
         : formattedDate.gregorian;
   }
 
+  Radius bottomRightBorderRadius(BuildContext context) {
+    final textDirection = Directionality.of(context);
+    final isRTL = textDirection == TextDirection.rtl;
+
+    if (isRTL) return Radius.circular(borderRadius * 0.6);
+    return const Radius.circular(5);
+  }
+
+  Radius bottomLeftBorderRadius(BuildContext context) {
+    final textDirection = Directionality.of(context);
+    final isRTL = textDirection == TextDirection.rtl;
+
+    if (isRTL) return const Radius.circular(5);
+    return Radius.circular(borderRadius * 0.6);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,10 +94,8 @@ class TodayContext extends StatelessWidget {
                               ? BorderRadius.only(
                                   topLeft: const Radius.circular(5),
                                   topRight: const Radius.circular(5),
-                                  bottomLeft: const Radius.circular(5),
-                                  bottomRight: Radius.circular(
-                                    borderRadius * 0.6,
-                                  ),
+                                  bottomLeft: bottomLeftBorderRadius(context),
+                                  bottomRight: bottomRightBorderRadius(context),
                                 )
                               : BorderRadius.vertical(
                                   bottom: Radius.circular(
@@ -117,10 +131,8 @@ class TodayContext extends StatelessWidget {
                       ? BorderRadius.only(
                           topLeft: const Radius.circular(5),
                           topRight: const Radius.circular(5),
-                          bottomRight: const Radius.circular(5),
-                          bottomLeft: Radius.circular(
-                            borderRadius * 0.6,
-                          ),
+                          bottomRight: bottomLeftBorderRadius(context),
+                          bottomLeft: bottomRightBorderRadius(context),
                         )
                       : BorderRadius.vertical(
                           bottom: Radius.circular(

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:example/l10n/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:persian_calendar_widget/core/data/i18n/i18n.dart';
 import 'package:persian_calendar_widget/persian_calendar_widget.dart';
 
 void main() {
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale('en', ''),
+      locale: const Locale('fa', ''),
     );
   }
 }
@@ -69,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   background: Colors.cyan.shade100,
                   primaryColor: Colors.cyan.shade700,
                   onPrimaryColor: Colors.cyan.shade50,
-                  calendarType: CalendarType.persian,
+                  calendarType: CalendarType.gregorian,
                   onSubmit: (chosenDate, dateInText) {
                     /// when user choose date from dialog box and submit two
                     /// types of `Jalali` date returned here
@@ -85,6 +84,60 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   showTodayBanner: true,
                   useGoToTodayButton: true,
+                  enablePersianDigits: false,
+                  i18n: I18n(
+                      buttons: I18nButtons(
+                        cancel: S.current.button_cancel,
+                        submit: S.current.button_submit,
+                        goTo: S.current.button_goTo,
+                        today: S.current.button_goToday,
+                      ),
+                      weekCodes: I18nWeekCodes(
+                        saturday: S.current.week_day_sat,
+                        sunday: S.current.week_day_sun,
+                        monday: S.current.week_day_mon,
+                        tuesday: S.current.week_day_tue,
+                        wednesday: S.current.week_day_wed,
+                        thursday: S.current.week_day_thu,
+                        friday: S.current.week_day_fri,
+                      ),
+                      gregorianMonths: I18nGregorianMonths(
+                        january: S.current.gregorian_month_january,
+                        february: S.current.gregorian_month_february,
+                        march: S.current.gregorian_month_march,
+                        april: S.current.gregorian_month_april,
+                        may: S.current.gregorian_month_may,
+                        june: S.current.gregorian_month_june,
+                        july: S.current.gregorian_month_july,
+                        august: S.current.gregorian_month_august,
+                        september: S.current.gregorian_month_september,
+                        october: S.current.gregorian_month_october,
+                        november: S.current.gregorian_month_november,
+                        december: S.current.gregorian_month_december,
+                      ),
+                      weekNames: I18nWeekNames(
+                        saturday: S.current.week_day_sat_name,
+                        sunday: S.current.week_day_sun_name,
+                        monday: S.current.week_day_mon_name,
+                        tuesday: S.current.week_day_tue_name,
+                        wednesday: S.current.week_day_wed_name,
+                        thursday: S.current.week_day_thu_name,
+                        friday: S.current.week_day_fri_name,
+                      ),
+                      persianMonths: I18nPersianMonths(
+                        farvardin: S.current.jalali_month_farvardin,
+                        ordibehesht: S.current.jalali_month_ordibehesht,
+                        khordad: S.current.jalali_month_khordad,
+                        tir: S.current.jalali_month_tir,
+                        mordad: S.current.jalali_month_mordad,
+                        shahrivar: S.current.jalali_month_shahrivar,
+                        mehr: S.current.jalali_month_mehr,
+                        aban: S.current.jalali_month_aban,
+                        azar: S.current.jalali_month_azar,
+                        dey: S.current.jalali_month_dey,
+                        bahman: S.current.jalali_month_bahman,
+                        esfand: S.current.jalali_month_esfand,
+                      )),
                 );
               },
               child: const Text('انتخاب روز ماه و سال')),

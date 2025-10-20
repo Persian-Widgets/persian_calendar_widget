@@ -1,3 +1,7 @@
+## 0.6.1
+* Add deprecated flag on some arguments that we do not need them anymore on future updates
+* Fix today banner border radius with different directionalities
+
 ## 0.6.0
 
 ### Major Features
