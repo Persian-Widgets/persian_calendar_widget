@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "button_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "button_goTo": MessageLookupByLibrary.simpleMessage("Go to"),
+    "button_goToday": MessageLookupByLibrary.simpleMessage("Go today"),
     "button_submit": MessageLookupByLibrary.simpleMessage("Submit"),
     "gregorian_month_april": MessageLookupByLibrary.simpleMessage("April"),
     "gregorian_month_august": MessageLookupByLibrary.simpleMessage("August"),
@@ -59,11 +61,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "jalali_month_shahrivar": MessageLookupByLibrary.simpleMessage("Shahrivar"),
     "jalali_month_tir": MessageLookupByLibrary.simpleMessage("Tir"),
     "week_day_fri": MessageLookupByLibrary.simpleMessage("fr"),
+    "week_day_fri_name": MessageLookupByLibrary.simpleMessage("friday"),
     "week_day_mon": MessageLookupByLibrary.simpleMessage("mo"),
+    "week_day_mon_name": MessageLookupByLibrary.simpleMessage("monday"),
     "week_day_sat": MessageLookupByLibrary.simpleMessage("sa"),
+    "week_day_sat_name": MessageLookupByLibrary.simpleMessage("saturday"),
     "week_day_sun": MessageLookupByLibrary.simpleMessage("su"),
+    "week_day_sun_name": MessageLookupByLibrary.simpleMessage("sunday"),
     "week_day_thu": MessageLookupByLibrary.simpleMessage("th"),
+    "week_day_thu_name": MessageLookupByLibrary.simpleMessage("tuesday"),
     "week_day_tue": MessageLookupByLibrary.simpleMessage("tu"),
+    "week_day_tue_name": MessageLookupByLibrary.simpleMessage("tuesday"),
     "week_day_wed": MessageLookupByLibrary.simpleMessage("we"),
+    "week_day_wed_name": MessageLookupByLibrary.simpleMessage("wednesday"),
   };
 }

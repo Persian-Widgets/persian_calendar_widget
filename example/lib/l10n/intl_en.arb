@@ -3,6 +3,8 @@
 
     "button_cancel": "Cancel",
     "button_submit": "Submit",
+    "button_goTo": "Go to",
+    "button_goToday": "Go today",
 
     "week_day_sat":"sa",
     "week_day_sun":"su",
@@ -11,6 +13,14 @@
     "week_day_wed":"we",
     "week_day_thu":"th",
     "week_day_fri":"fr",
+
+    "week_day_sat_name":"saturday",
+    "week_day_sun_name":"sunday",
+    "week_day_mon_name":"monday",
+    "week_day_tue_name":"tuesday",
+    "week_day_wed_name":"wednesday",
+    "week_day_thu_name":"tuesday",
+    "week_day_fri_name":"friday",
 
     "gregorian_month_january": "January",
     "gregorian_month_february": "February",

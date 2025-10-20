@@ -3,6 +3,8 @@
 
     "button_cancel": "لغو",
     "button_submit": "تایید",
+    "button_goTo": "برو به",
+    "button_goToday": "برو به امروز",
 
     "week_day_sat":"ش",
     "week_day_sun":"یک",
@@ -11,6 +13,14 @@
     "week_day_wed":"چهار",
     "week_day_thu":"پنج",
     "week_day_fri":"ج",
+
+    "week_day_sat_name":"شنبه",
+    "week_day_sun_name":"یکشنبه",
+    "week_day_mon_name":"دوشنبه",
+    "week_day_tue_name":"سه‌شنبه",
+    "week_day_wed_name":"چهارشنبه",
+    "week_day_thu_name":"پنج‌شنبه",
+    "week_day_fri_name":"جمعه",
 
     "gregorian_month_january": "ژانویه",
     "gregorian_month_february": "فوریه",
