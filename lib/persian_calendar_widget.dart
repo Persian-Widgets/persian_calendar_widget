@@ -1,3 +1,5 @@
+export 'package:shamsi_date/shamsi_date.dart';
+
 export 'core/data/enums/calendar_type.dart';
 export 'core/data/enums/first_day_of_week.dart';
 export 'core/data/i18n/i18n.dart';
