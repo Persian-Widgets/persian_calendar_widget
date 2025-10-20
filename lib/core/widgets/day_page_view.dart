@@ -44,22 +44,35 @@ class _DayPageViewState extends State<DayPageView> {
   late int monthLength;
 
   int get weekdayNumber {
-    final CalendarType calendarType = context
-        .read<DatePickerBloc>()
-        .state
-        .calendarConfigurations
-        .calendarType;
+    late DateTime firstDayOfMonth;
+    late int startWeekDayNumber;
 
-    final DateTime selectedDate =
-        context.watch<DatePickerBloc>().state.selectedDate;
+    final datePickerState = context.read<DatePickerBloc>().state;
+    final calendarType = datePickerState.calendarConfigurations.calendarType;
+    final firstDayOfWeek =
+        datePickerState.calendarConfigurations.firstDayOfWeek;
+    final selectedDate = datePickerState.selectedDate;
 
-    if (calendarType == CalendarType.persian) {
-      final jDate = selectedDate.toJalali();
-      final date = Jalali(jDate.year, jDate.month);
-      return date.toDateTime().weekday;
+    if (calendarType.isPersian) {
+      final jSelectedDate = selectedDate.toJalali();
+      firstDayOfMonth =
+          Jalali(jSelectedDate.year, jSelectedDate.month).toDateTime();
     }
 
-    return DateTime(selectedDate.year, selectedDate.month).weekday;
+    if (calendarType.isGregorian) {
+      firstDayOfMonth = DateTime(selectedDate.year, selectedDate.month);
+    }
+
+    startWeekDayNumber = firstDayOfMonth.weekday;
+    if (startWeekDayNumber == 6 && firstDayOfWeek.isSaturday) {
+      startWeekDayNumber = -1;
+    }
+    if (startWeekDayNumber == 7 &&
+        (firstDayOfWeek.isSaturday || firstDayOfWeek.isSunday)) {
+      startWeekDayNumber = 0;
+    }
+
+    return startWeekDayNumber;
   }
 
   void _calculateMonthLength(
@@ -67,7 +80,7 @@ class _DayPageViewState extends State<DayPageView> {
     DateTime selectedDate,
     FirstDayOfWeek firstDay,
   ) {
-    final int baseMonthLength = calendarType == CalendarType.gregorian
+    final int baseMonthLength = calendarType.isGregorian
         ? selectedDate.toGregorian().monthLength
         : selectedDate.toJalali().monthLength;
 

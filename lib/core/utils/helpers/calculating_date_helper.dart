@@ -17,7 +17,7 @@ class CalculatingDateHelper {
     int? selectedMonth,
     int? selectedDay,
   }) {
-    if (calendarType == CalendarType.gregorian) {
+    if (calendarType.isGregorian) {
       final int year = selectedYear ?? original.year;
       final int month = selectedMonth ?? original.month;
       final int day = selectedDay ?? original.day;
