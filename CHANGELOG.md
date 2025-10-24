@@ -1,6 +1,16 @@
-## 0.6.1
-* Add deprecated flag on some arguments that we do not need them anymore on future updates
-* Fix today banner border radius with different directionalities
+## 0.7.0
+
+### Major Features
+* Implement grid view calendar widget
+* Add calendar helper with next and previous methods
+* Add boolean constructors to CalendarType and FirstDayOfWeek enums
+
+### Breaking Changes
+* Handle extra space and remove it when start week day is Sunday or Saturday on day page view
+* Flag deprecated arguments on minimal and custom decoration Persian calendars
+* Handle text direction (RTL) and change banner radius borders
+* Add shamsi_date package import to the Persian calendar widget file
+* Remove extra Directionality widget on date picker dialog boxes
 
 ## 0.6.0
 
