@@ -53,8 +53,8 @@ class _MonthPageViewState extends State<MonthPageView> {
             bottom: 5,
           ),
           shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 100,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
             childAspectRatio: 1.7,
           ),
           itemCount: 12,
