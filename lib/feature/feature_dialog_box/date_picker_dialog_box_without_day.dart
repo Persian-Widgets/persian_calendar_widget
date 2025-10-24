@@ -255,8 +255,8 @@ class _DatePickerDialogBoxWithoutDayState
               ],
 
               SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).width * .78,
+                width: 300,
+                height: 280,
                 child: PageView(
                   controller: _pageController,
                   physics: const NeverScrollableScrollPhysics(),
