@@ -6,6 +6,12 @@ A Flutter package that provides a customizable grid view calendar widget and dat
 
 ![Persian Calendar Widget Shots](https://github.com/Persian-Widgets/persian_calendar_widget/blob/main/doc/images/persian_calendar_widget_shots.png?raw=true)
 
+## Live Demo
+If you want to see the demo web app, visit: https://persian-calendar-demo.web.app
+
+## Example App
+Check the full example here: https://github.com/Persian-Widgets/persian_calendar_demo_app
+
 ## Features
 
 - Supports both Persian (Jalali) and Gregorian calendars.
