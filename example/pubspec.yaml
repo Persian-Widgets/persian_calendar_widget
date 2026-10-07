@@ -4,7 +4,7 @@ publish_to: none
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ^3.13.2
 
 dependencies:
   flutter:
@@ -16,7 +16,6 @@ dependencies:
 
   persian_calendar_widget:
     path: ../
-
 
 dev_dependencies:
   flutter_test:
