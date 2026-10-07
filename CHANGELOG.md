@@ -1,3 +1,11 @@
+## 0.8.0
+
+### Features
+* Add `JalaliLinearDateGenerator` for wheel-style Persian (Jalali) date selection.
+* Add `GregorianLinearDateGenerator` for wheel-style Gregorian date selection.
+* Support initial dates, date and year limits, optional time selection, today navigation, and localized labels in linear date pickers.
+* Export both linear date generators from the package entry point.
+
 ## 0.7.0
 
 ### Major Features
