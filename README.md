@@ -16,6 +16,7 @@ Check the full example here: https://github.com/Persian-Widgets/persian_calendar
 
 - Supports both Persian (Jalali) and Gregorian calendars.
 - Embeddable `GridViewCalendar` for custom inline calendars with powerful builder callbacks for day and weekday tiles.
+- Wheel-style `JalaliLinearDateGenerator` and `GregorianLinearDateGenerator` widgets for inline date selection, with optional time selection and date/year limits.
 - Two widget variants: `MinimalPersianCalendar` (simple styling) and `CustomDecorationPersianCalendar` (full customization).
 - Flexible date picking modes: full date (day/month/year), month/day, day only, or year/month.
 - Internationalization for buttons, weekdays, and months.
@@ -38,6 +39,47 @@ Additionally, `GridViewCalendar` provides a non-dialog widget for embedding a cu
 The `onSubmit` callback receives:
 - `selectedDate`: Record with `jalali: Jalali` and `gregorian: Gregorian` objects.
 - `formattedDate`: Record with `jalali: String` and `gregorian: String` (e.g., "12 Ordibehesht 1403").
+
+### Linear Date Pickers
+
+Use `JalaliLinearDateGenerator` or `GregorianLinearDateGenerator` when you want a compact, wheel-style date selector embedded directly in your layout. The `onSelected` callback provides the selected date in both calendar systems and formatted strings for both calendars.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:persian_calendar_widget/persian_calendar_widget.dart';
+
+class DateSelection extends StatefulWidget {
+  const DateSelection({super.key});
+
+  @override
+  State<DateSelection> createState() => _DateSelectionState();
+}
+
+class _DateSelectionState extends State<DateSelection> {
+  String selectedDate = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        JalaliLinearDateGenerator(
+          initialDate: Jalali.now(),
+          startDate: Jalali(1400, 1, 1),
+          endDate: Jalali(1450, 12, 29),
+          visibleTodayButton: true,
+          onSelected: (dates, formatted) {
+            setState(() => selectedDate = formatted.jalali);
+          },
+        ),
+        Text('Selected: $selectedDate'),
+      ],
+    );
+  }
+}
+```
+
+For Gregorian dates, use `GregorianLinearDateGenerator` with `DateTime` values for `initialDate`, `startDate`, and `endDate`. Set `visibleTimePicker: true` to include hour and minute wheels. Both widgets also accept `minYear` and `maxYear`, `i18n`, `textStyle`, picker constraints, and wheel appearance options (`diameterRatio`, `magnification`, `offAxisFraction`, and `squeeze`).
 
 ### GridViewCalendar
 
@@ -309,6 +351,23 @@ Text('123'.toPersianDigit())  // Outputs: ۱۲۳
 | `padding`              | Overall padding                                  | `EdgeInsets?`         | EdgeInsets.all(8)        |
 
 With these builders, developers can implement advanced features like event overlays, accessibility labels, animations, or integration with state management for dynamic calendars.
+
+### Linear Date Picker Parameters
+
+`JalaliLinearDateGenerator` and `GregorianLinearDateGenerator` share the following options. The date values use `Jalali` for the former and `DateTime` for the latter.
+
+| Parameter | Description | Type | Default |
+|---|---|---|---|
+| `onSelected` | Called with selected Jalali/Gregorian dates and their formatted strings | `SelectedDate` | Required |
+| `initialDate` | Date shown when the picker opens | `Jalali?` / `DateTime?` | Today |
+| `startDate` / `endDate` | Inclusive date bounds | `Jalali?` / `DateTime?` | No date bound |
+| `minYear` / `maxYear` | Additional year bounds | `int?` | No year bound |
+| `visibleTodayButton` | Show the button that selects today's date | `bool` | `false` |
+| `visibleTimePicker` | Show hour and minute wheels | `bool` | `false` |
+| `i18n` | Localized month labels | `I18n?` | Default `I18n()` |
+| `constraints` | Constraints for the picker wheels | `BoxConstraints?` | Based on available screen size |
+| `textStyle` | Style for wheel labels | `TextStyle?` | Default text style |
+| `diameterRatio`, `magnification`, `offAxisFraction`, `squeeze` | Configure the wheel appearance | `double` | `1.0`, `1.3`, `0.0`, `1.3` |
 
 ### MinimalPersianCalendar Parameters
 
