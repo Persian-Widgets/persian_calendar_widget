@@ -1,9 +1,9 @@
 name: persian_calendar_widget
 description: "Pick a date with a custom dialog box in Persian calendar that can be used in any project."
-version: 0.7.0
+version: 0.8.0
 homepage: https://github.com/Persian-Widgets
 repository: https://github.com/Persian-Widgets/persian_calendar_widget
-topics: 
+topics:
   - persian-calendar
   - persian-date-picker
   - shamsi-date-picker
@@ -11,12 +11,11 @@ topics:
   - date-picker
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: ^3.13.2
 
 dependencies:
   bloc: ^9.0.1
-  equatable: ^2.0.7
+  equatable: ^3.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -25,7 +24,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
 
@@ -33,11 +32,10 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   #
-  
+
   # fonts:
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-
